@@ -127,21 +127,45 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Chest.h" />
+    <ClInclude Include="Coin.h" />
     <ClInclude Include="ConsoleControl.h" />
     <ClInclude Include="Coordinates.h" />
+    <ClInclude Include="DropLootable.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Character.h" />
     <ClInclude Include="EntityLootable.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="GameUI.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="MapElementCoordinates.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Portal.h" />
+    <ClInclude Include="Potion.h" />
     <ClInclude Include="ThreadManager.h" />
+    <ClInclude Include="Wall.h" />
+    <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Chest.cpp" />
+    <ClCompile Include="Coin.cpp" />
     <ClCompile Include="ConsoleControl.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Character.cpp" />
     <ClCompile Include="EntityLootable.cpp" />
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="GameUI.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="MapElementCoordinates.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Portal.cpp" />
+    <ClCompile Include="Potion.cpp" />
     <ClCompile Include="ThreadManager.cpp" />
+    <ClCompile Include="Wall.cpp" />
+    <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
