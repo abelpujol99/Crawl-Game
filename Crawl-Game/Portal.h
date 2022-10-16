@@ -11,4 +11,3 @@ public:
 	void Teleport(Coordinates& currentPlayerMinimapCoordinates);
 	void Draw() override;
 };
-

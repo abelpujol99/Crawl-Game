@@ -22,8 +22,7 @@ private:
 
 public:
 
-	Map();
 	Map(Coordinates mapOnWorldMapCoordinates, Coordinates maxWidthAndHeightOfWorldMap);
-	void CheckCollision();
+	void CheckCollision(MapElementCoordinates* malElements);
 	void Draw(MapElementCoordinates* mapElements);
 };

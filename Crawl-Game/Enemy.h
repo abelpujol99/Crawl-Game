@@ -13,5 +13,9 @@ private:
 public:
 
 	Enemy(Coordinates coordinates);
+	void Move() override;
+	//void InteractWithEntityLootable(EntityLootable* entityLootable) override;
+	void Die() override;
 	void Draw() override;
+	//void AcceptCharacter(Player* player) override;
 };

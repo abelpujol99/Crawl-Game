@@ -3,6 +3,7 @@
 Potion::Potion() : DropLootable() {
 
 	this->_healValue = 2;
+	_mapElementType = POTION;
 }
 
 int Potion::GetHealValue() {

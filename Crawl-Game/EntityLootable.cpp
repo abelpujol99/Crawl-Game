@@ -19,10 +19,10 @@ EntityLootable::EntityLootable() {
 	default:
 		break;
 	}
-
 }
 
 void EntityLootable::Drop() {
+
 	this->_drop->SetCoordinates(this->GetCoordinates());
 }
 

@@ -3,7 +3,18 @@
 Player::Player(Coordinates coordinates) : Character (coordinates) {
 
 	//this->_inventory = Inventory();
+	_mapElementType = PLAYER;
 }
+
+void Player::Move() {
+
+
+}
+
+//void Player::InteractWithEntityLootable(EntityLootable* entityLootable) {
+//
+//	entityLootable->AcceptCharacter(this);
+//}
 
 void Player::HealYourself() {
 
@@ -15,9 +26,9 @@ void Player::HealYourself() {
 	this->_currentWeapon = weaponOfInventory;
 }*/
 
-bool Player::IsAlive() {
+void Player::Die() {
 
-	return this->_health >= 0;
+	//TODO: RESET THE GAME
 }
 
 void Player::Draw() {

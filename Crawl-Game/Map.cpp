@@ -67,7 +67,7 @@ void Map::CreatePortalsOrWalls(std::vector<bool> cardinalPortals) {
 	}
 }
 
-void Map::CheckCollision() {
+void Map::CheckCollision(MapElementCoordinates* malElements) {
 
 
 }

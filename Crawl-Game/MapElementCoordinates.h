@@ -3,11 +3,14 @@
 
 struct Coordinates;
 
+enum MapElementType {PLAYER, ENEMY, CHEST, COIN, POTION, WEAPON, PORTAL, WALL};
+
 class MapElementCoordinates
 {
 
 protected:
-
+	
+	MapElementType _mapElementType;
 	Coordinates _currentCoordinates;
 
 public:

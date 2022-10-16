@@ -6,6 +6,7 @@
 Portal::Portal(Coordinates coordinates) {
 
 	this->SetCoordinates(coordinates);
+	_mapElementType = PORTAL;
 }
 
 void Portal::Teleport(Coordinates& currentPlayerMinimapCoordinates){
