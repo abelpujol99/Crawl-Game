@@ -139,12 +139,12 @@
     <ClInclude Include="GameUI.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Map.h" />
-    <ClInclude Include="MapElementCoordinates.h" />
+    <ClInclude Include="MapElement.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="Potion.h" />
     <ClInclude Include="ThreadManager.h" />
-    <ClInclude Include="Wall.h" />
+    <ClInclude Include="Block.h" />
     <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>
@@ -159,12 +159,12 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Map.cpp" />
-    <ClCompile Include="MapElementCoordinates.cpp" />
+    <ClCompile Include="MapElement.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="Potion.cpp" />
     <ClCompile Include="ThreadManager.cpp" />
-    <ClCompile Include="Wall.cpp" />
+    <ClCompile Include="Block.cpp" />
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

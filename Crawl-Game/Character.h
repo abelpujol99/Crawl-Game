@@ -1,12 +1,12 @@
 #pragma once
-#include "MapElementCoordinates.h"
+#include "MapElement.h"
 #include "EntityLootable.h"
 //#include "Chest.h"
 //#include "Enemy.h"
 
-class MapElementCoordinates;
+class MapElement;
 
-class Character : public MapElementCoordinates
+class Character : public MapElement
 {
 
 protected:

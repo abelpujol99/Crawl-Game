@@ -3,7 +3,8 @@
 int main() {
 	GameManager gameManager;
 	gameManager.Setup();
-	while (!gameManager.CheckExit()) {
+	while (true) {
+		system("cls");
 		gameManager.Loop();
 	}
 }

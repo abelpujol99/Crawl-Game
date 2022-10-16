@@ -1,12 +1,12 @@
-#include "Wall.h"
+#include "Block.h"
 
-Wall::Wall(Coordinates coordinates) {
+Block::Block(Coordinates coordinates) {
 
 	this->SetCoordinates(coordinates);
 	_mapElementType = WALL;
 }
 
-void Wall::Draw() {
+void Block::Draw() {
 
 	std::cout << '#' << std::endl;
 }

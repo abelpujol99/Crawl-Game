@@ -2,20 +2,20 @@
 #include <stdio.h> 
 #include <stdlib.h>
 #include <time.h>
-#include "MapElementCoordinates.h"
+#include "MapElement.h"
 //#include "Player.h"
 //#include "DropLootable.h"
 #include "Potion.h"
 #include "Coin.h"
 #include "Weapon.h"
 
-class MapElementCoordinates;
+class MapElement;
 class DropLootable;
 class Potion;
 class Coin;
 class Weapon;
 
-class EntityLootable : public MapElementCoordinates
+class EntityLootable : public MapElement
 {
 
 protected:

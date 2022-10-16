@@ -1,8 +1,8 @@
 #pragma once
 #include <iostream>
-#include "MapElementCoordinates.h"
+#include "MapElement.h"
 
-class Portal : public MapElementCoordinates
+class Portal : public MapElement
 {
 
 public:

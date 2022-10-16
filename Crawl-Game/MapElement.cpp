@@ -1,0 +1,11 @@
+#include "MapElement.h"
+
+void MapElement::SetCoordinates(Coordinates coordinates) {
+
+	this->_currentCoordinates = coordinates;
+}
+
+Coordinates MapElement::GetCoordinates()
+{
+	return this->_currentCoordinates;
+}

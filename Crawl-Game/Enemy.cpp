@@ -10,6 +10,11 @@ Enemy::Enemy(Coordinates coordinates) : Character(coordinates), EntityLootable()
 //	entityLootable->AcceptCharacter(this);
 //}
 
+void Enemy::Move() {
+
+
+}
+
 void Enemy::Die() {
 
 	this->Drop();

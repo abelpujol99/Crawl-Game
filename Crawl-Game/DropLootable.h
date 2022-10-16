@@ -1,9 +1,9 @@
 #pragma once
-#include "MapElementCoordinates.h"
+#include "MapElement.h"
 
 class MapElementCooridnates;
 
-class DropLootable : public MapElementCoordinates {
+class DropLootable : public MapElement {
 
 };
 

@@ -5,7 +5,7 @@ struct Coordinates;
 
 enum MapElementType {PLAYER, ENEMY, CHEST, COIN, POTION, WEAPON, PORTAL, WALL};
 
-class MapElementCoordinates
+class MapElement
 {
 
 protected:
@@ -18,6 +18,10 @@ public:
 	void SetCoordinates(Coordinates coordinates);
 	Coordinates GetCoordinates();
 	virtual void Draw() = 0;
+	MapElementType GetMapElementType() {
+	
+		this->_mapElementType;
+	}
 
 };
 
