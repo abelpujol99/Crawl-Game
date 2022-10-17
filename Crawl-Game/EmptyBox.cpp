@@ -8,5 +8,5 @@ EmptyBox::EmptyBox(Coordinates coordinates) {
 
 void EmptyBox::Draw() {
 
-	std::cout << ' ' << std::endl;
+	std::cout << ' ';
 }

@@ -16,8 +16,6 @@ Map::Map(Coordinates mapOnWorldMapCoordinates, Coordinates maxWidthAndHeightOfWo
 	}
 
 	CheckPortalsAvailability(mapOnWorldMapCoordinates, maxWidthAndHeightOfWorldMap);
-
-	system("pause");
 }
 
 void Map::CheckPortalsAvailability(Coordinates mapOnWorldMapCoordinates, Coordinates maxWidthAndHeightOfWorldMap) {
@@ -40,9 +38,8 @@ void Map::CreateMap(std::vector<bool> cardinalPortals) {
 		for (int j = 0; j < MAP_WIDTH; j++)
 		{
 			if ((i != 0 && i != MAP_HEIGHT - 1) && (j != 0 && j != MAP_WIDTH -1))
-			{
-				this->_emptyBoxes.push_back(EmptyBox(Coordinates(j, i)));
-				EmptyBox* emptyBoxPtr = &_emptyBoxes[_emptyBoxes.size() - 1];
+			{				
+				EmptyBox* emptyBoxPtr = new EmptyBox(Coordinates(j, i));
 				this->_map[j][i] = emptyBoxPtr;
 				continue;
 			}
@@ -53,13 +50,11 @@ void Map::CreateMap(std::vector<bool> cardinalPortals) {
 
 void Map::CreateBlocksOrPortals(Coordinates coordinates, std::vector<bool> cardinalPortals, int& portalCounter) {
 
-
 	if (coordinates.y == floor((MAP_HEIGHT - 1) / 2) || coordinates.x == floor((MAP_WIDTH - 1) /2))
 	{
 		if (cardinalPortals[portalCounter])
 		{
-			this->_portals.push_back(Portal(Coordinates(coordinates.x, coordinates.y)));
-			Portal* portalPtr = &_portals[_portals.size() - 1];
+			Portal* portalPtr = new Portal(Coordinates(coordinates.x, coordinates.y));
 			this->_map[coordinates.y][coordinates.x] = portalPtr;
 		}
 		portalCounter++;
@@ -68,8 +63,7 @@ void Map::CreateBlocksOrPortals(Coordinates coordinates, std::vector<bool> cardi
 			return;
 		}
 	}
-	this->_blocks.push_back(Block(Coordinates(coordinates.x, coordinates.y)));
-	Block* blockPtr = &_blocks[_blocks.size() - 1];
+	Block* blockPtr = new Block(Coordinates(coordinates.x, coordinates.y)); 
 	this->_map[coordinates.y][coordinates.x] = blockPtr;
 }
 
@@ -86,7 +80,6 @@ void Map::AddMapElement(MapElement* mapElement) {
 void Map::Draw(MapElement* mapElements) {
 
 	//TODO: Change Cursor with Console Control and Print mapElements
-
 }
 
 std::vector<std::vector<MapElement*>> Map::GetMapElements() {
@@ -104,8 +97,7 @@ void Map::Draw() {
 			{
 				_map[i][j]->Draw();
 			}
-			std::cout << ' ' << std::endl;
-		}
+		}		
+		std::cout << std::endl;
 	}
-
 }

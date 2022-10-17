@@ -5,10 +5,5 @@ Chest::Chest() : EntityLootable() {
 
 void Chest::Draw() {
 
-	std::cout << 'C' << std::endl;
+	std::cout << 'C';
 }
-
-//void Chest::AcceptCharacter(Player* player) {
-//
-//	this->Drop();
-//}

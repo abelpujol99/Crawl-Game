@@ -2,5 +2,5 @@
 
 void Weapon::Draw() {
 
-	std::cout << 'W' << std::endl;
+	std::cout << 'W';
 }

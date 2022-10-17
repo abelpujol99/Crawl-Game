@@ -39,6 +39,5 @@ public:
 	bool CheckExit();
 	void SetCurrentMap(Coordinates nextMapCoordinates);
 	void SetMapElementInCurrentMap(MapElement* mapElement);
-	void InsertStaticElements();
 };
 

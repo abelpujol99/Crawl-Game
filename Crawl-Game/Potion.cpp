@@ -14,5 +14,5 @@ int Potion::GetHealValue() {
 
 void Potion::Draw() {
 	
-	std::cout << 'H' << std::endl;
+	std::cout << 'H';
 }
