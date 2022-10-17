@@ -1,5 +1,10 @@
 #include "Player.h"
 
+Player::Player() : Character() {
+
+	_mapElementType = PLAYER;
+}
+
 Player::Player(Coordinates coordinates) : Character (coordinates) {
 
 	//this->_inventory = Inventory();

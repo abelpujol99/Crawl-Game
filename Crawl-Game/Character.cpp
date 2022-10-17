@@ -1,6 +1,11 @@
 #include "Character.h"
 //#include "Weapon.h"
 
+Character::Character() {
+
+	this->_health = 5;
+}
+
 Character::Character(Coordinates coordinates) {
 	
 	this->_currentCoordinates = coordinates;

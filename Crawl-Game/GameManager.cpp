@@ -18,12 +18,12 @@ GameManager::GameManager()
 	}
 
 	_currentMap = Coordinates(floor(WORLD_MAP_HEIGHT / 2), floor(WORLD_MAP_WIDTH / 2));
-	Player player(Coordinates(floor(MAP_HEIGHT / 2), floor(MAP_WIDTH / 2)));
+	this->player = Player((Coordinates(floor(MAP_HEIGHT / 2), floor(MAP_WIDTH / 2))));
 	Player* playerPtr = &player;
 	
-	_mapElements.push_back(playerPtr);
+	std::vector<std::vector<MapElement*>> auxMap = _maps[_currentMap.y][_currentMap.x].GetMapElements();
+	auxMap[player.GetCoordinates().y][player.GetCoordinates().x] = playerPtr;
 
-	InsertStaticElements();	
 }
 
 GameManager::~GameManager()
@@ -62,30 +62,4 @@ void GameManager::SetCurrentMap(Coordinates nextMapCoordinates) {
 void GameManager::SetMapElementInCurrentMap(MapElement* mapElement) {
 
 
-}
-
-void GameManager::InsertStaticElements() {
-
-	for (int i = 0; i < _maps.size(); i++)
-	{
-		for (int j = 0; j < _maps[i].size(); j++)
-		{
-			std::vector<Block> auxBlocks = _maps[i][j].GetBlocks();
-			std::vector<Portal> auxPortals = _maps[i][j].GetPortals();
-
-			for (int k = 0; k < auxBlocks.size(); k++)
-			{
-				Block auxBlock = auxBlocks[k];
-				Block* auxBlockPtr = &auxBlock;
-				_mapElements.push_back(auxBlockPtr);
-			}
-
-			for (int k = 0; k < auxPortals.size(); k++)
-			{
-				Portal auxPortal = auxPortals[k];
-				Portal* auxPortalPtr = &auxPortal;
-				_mapElements.push_back(auxPortalPtr);
-			}
-		}
-	}
 }

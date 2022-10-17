@@ -4,6 +4,7 @@
 #include "Coordinates.h"
 #include "Portal.h"
 #include "Block.h"
+#include "EmptyBox.h"
 #include "MapElement.h"
 
 #define MAP_WIDTH 7
@@ -17,9 +18,10 @@ private:
 	std::vector<std::vector<MapElement*>> _map;
 	std::vector<Portal> _portals;
 	std::vector<Block> _blocks;
+	std::vector<EmptyBox> _emptyBoxes;
 
 	void CheckPortalsAvailability(Coordinates mapOnWorldMapCoordinates, Coordinates maxWidthAndHeightOfWorldMap);
-	void CreateMapLimits(std::vector<bool> cardinalPortals);
+	void CreateMap(std::vector<bool> cardinalPortals);
 	void CreateBlocksOrPortals(Coordinates coordinates, std::vector<bool> cardinalPortals, int& portalCounters);
 
 public:
@@ -28,7 +30,6 @@ public:
 	void CheckCollision(MapElement* malElements);
 	void Draw(MapElement* mapElements);
 	void AddMapElement(MapElement* mapElement);
-	std::vector<Portal> GetPortals();
-	std::vector<Block> GetBlocks();
+	std::vector<std::vector<MapElement*>> GetMapElements();
 	void Draw();
 };

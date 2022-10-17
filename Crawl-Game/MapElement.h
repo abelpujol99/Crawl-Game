@@ -3,7 +3,7 @@
 
 struct Coordinates;
 
-enum MapElementType {PLAYER, ENEMY, CHEST, COIN, POTION, WEAPON, PORTAL, WALL};
+enum MapElementType {PLAYER, ENEMY, CHEST, COIN, POTION, WEAPON, PORTAL, WALL, NONE};
 
 class MapElement
 {
@@ -22,6 +22,5 @@ public:
 	
 		this->_mapElementType;
 	}
-
 };
 

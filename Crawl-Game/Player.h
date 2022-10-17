@@ -14,6 +14,7 @@ private:
 
 public:
 
+	Player();
 	Player(Coordinates coodinates);
 	void Move() override;
 	//void InteractWithEntityLootable(EntityLootable* entityLootable) override;

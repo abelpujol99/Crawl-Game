@@ -16,6 +16,8 @@ Map::Map(Coordinates mapOnWorldMapCoordinates, Coordinates maxWidthAndHeightOfWo
 	}
 
 	CheckPortalsAvailability(mapOnWorldMapCoordinates, maxWidthAndHeightOfWorldMap);
+
+	system("pause");
 }
 
 void Map::CheckPortalsAvailability(Coordinates mapOnWorldMapCoordinates, Coordinates maxWidthAndHeightOfWorldMap) {
@@ -26,10 +28,10 @@ void Map::CheckPortalsAvailability(Coordinates mapOnWorldMapCoordinates, Coordin
 	cardinalPortals.push_back(!mapOnWorldMapCoordinates.CompareXCoordinate(maxWidthAndHeightOfWorldMap.x - 1));
 	cardinalPortals.push_back(!mapOnWorldMapCoordinates.CompareYCoordinate(maxWidthAndHeightOfWorldMap.y - 1));
 
-	CreateMapLimits(cardinalPortals);
+	CreateMap(cardinalPortals);
 }
 
-void Map::CreateMapLimits(std::vector<bool> cardinalPortals) {
+void Map::CreateMap(std::vector<bool> cardinalPortals) {
 
 	int portalCounter = 0;
 
@@ -39,6 +41,9 @@ void Map::CreateMapLimits(std::vector<bool> cardinalPortals) {
 		{
 			if ((i != 0 && i != MAP_HEIGHT - 1) && (j != 0 && j != MAP_WIDTH -1))
 			{
+				this->_emptyBoxes.push_back(EmptyBox(Coordinates(j, i)));
+				EmptyBox* emptyBoxPtr = &_emptyBoxes[_emptyBoxes.size() - 1];
+				this->_map[j][i] = emptyBoxPtr;
 				continue;
 			}
 			CreateBlocksOrPortals(Coordinates(j, i), cardinalPortals, portalCounter);
@@ -53,12 +58,19 @@ void Map::CreateBlocksOrPortals(Coordinates coordinates, std::vector<bool> cardi
 	{
 		if (cardinalPortals[portalCounter])
 		{
-			this->_portals.push_back(Coordinates(coordinates.x, coordinates.y));
+			this->_portals.push_back(Portal(Coordinates(coordinates.x, coordinates.y)));
+			Portal* portalPtr = &_portals[_portals.size() - 1];
+			this->_map[coordinates.y][coordinates.x] = portalPtr;
 		}
 		portalCounter++;
-		return;
+		if (cardinalPortals[portalCounter - 1])
+		{
+			return;
+		}
 	}
-	this->_blocks.push_back(Coordinates(coordinates.x, coordinates.y));
+	this->_blocks.push_back(Block(Coordinates(coordinates.x, coordinates.y)));
+	Block* blockPtr = &_blocks[_blocks.size() - 1];
+	this->_map[coordinates.y][coordinates.x] = blockPtr;
 }
 
 void Map::CheckCollision(MapElement* mapElement) {
@@ -77,14 +89,9 @@ void Map::Draw(MapElement* mapElements) {
 
 }
 
-std::vector<Portal> Map::GetPortals() {
+std::vector<std::vector<MapElement*>> Map::GetMapElements() {
 
-	return this->_portals;
-}
-
-std::vector<Block> Map::GetBlocks() {
-
-	return this->_blocks;
+	return this->_map;
 }
 
 void Map::Draw() {

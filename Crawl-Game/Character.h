@@ -17,6 +17,7 @@ protected:
 
 public:
 
+	Character();
 	Character(Coordinates coordinates);
 	virtual void Move() = 0;
 	void IsAlive();

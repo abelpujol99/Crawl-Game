@@ -132,6 +132,7 @@
     <ClInclude Include="ConsoleControl.h" />
     <ClInclude Include="Coordinates.h" />
     <ClInclude Include="DropLootable.h" />
+    <ClInclude Include="EmptyBox.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="EntityLootable.h" />
@@ -151,6 +152,7 @@
     <ClCompile Include="Chest.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="ConsoleControl.cpp" />
+    <ClCompile Include="EmptyBox.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="EntityLootable.cpp" />

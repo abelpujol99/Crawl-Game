@@ -12,6 +12,7 @@
 #include "Weapon.h"
 #include "Block.h"
 #include "Portal.h"
+#include "EmptyBox.h"
 #include "GameUI.h"
 #include "Map.h"
 
@@ -26,7 +27,7 @@ private:
 	Input* input;
 	GameUI* gameUI;	
 	std::vector<std::vector<Map>> _maps;
-	std::vector<MapElement*> _mapElements;
+	Player player;
 	Coordinates _currentMap;
 
 public:
