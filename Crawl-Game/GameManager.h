@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <math.h>
+#include "ConsoleControl.h"
 #include "Input.h"
 #include "ThreadManager.h"
 #include "Player.h"
@@ -27,8 +28,9 @@ private:
 	Input* input;
 	GameUI* gameUI;	
 	std::vector<std::vector<Map>> _maps;
+	std::vector<std::vector<MapElement*>>* _currentMap;
 	Player player;
-	Coordinates _currentMap;
+	Coordinates _currentMapCoordinates;
 
 public:
 
@@ -37,7 +39,9 @@ public:
 	void Setup();
 	void Loop();
 	bool CheckExit();
+	void SetCurrentCoordinates(Coordinates currentCoordinates);
 	void SetCurrentMap(Coordinates nextMapCoordinates);
 	void SetMapElementInCurrentMap(MapElement* mapElement);
+	void DrawMapElements();
 };
 

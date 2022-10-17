@@ -18,9 +18,6 @@ public:
 	void SetCoordinates(Coordinates coordinates);
 	Coordinates GetCoordinates();
 	virtual void Draw() = 0;
-	MapElementType GetMapElementType() {
-	
-		this->_mapElementType;
-	}
+	MapElementType GetMapElementType();
 };
 

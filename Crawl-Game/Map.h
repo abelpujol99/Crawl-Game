@@ -15,9 +15,7 @@ class Map {
 private:
 
 	std::vector<std::vector<MapElement*>> _map;
-	std::vector<Portal> _portals;
-	std::vector<Block> _blocks;
-	std::vector<EmptyBox> _emptyBoxes;
+	std::vector<std::vector<MapElement*>>* _mapPtr;
 
 	void CheckPortalsAvailability(Coordinates mapOnWorldMapCoordinates, Coordinates maxWidthAndHeightOfWorldMap);
 	void CreateMap(std::vector<bool> cardinalPortals);
@@ -29,6 +27,7 @@ public:
 	void CheckCollision(MapElement* malElements);
 	void Draw(MapElement* mapElements);
 	void AddMapElement(MapElement* mapElement);
-	std::vector<std::vector<MapElement*>> GetMapElements();
+	std::vector<std::vector<MapElement*>>* GetMapElements();
+	void SetMapElementInCurrentMap(MapElement* mapElemnt);
 	void Draw();
 };

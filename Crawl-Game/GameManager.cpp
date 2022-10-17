@@ -17,13 +17,10 @@ GameManager::GameManager()
 		_maps.push_back(auxMap);
 	}
 
-	_currentMap = Coordinates(floor(WORLD_MAP_HEIGHT / 2), floor(WORLD_MAP_WIDTH / 2));
-	this->player = Player((Coordinates(floor(MAP_HEIGHT / 2), floor(MAP_WIDTH / 2))));
-	Player* playerPtr = &player;
-	
-	std::vector<std::vector<MapElement*>> auxMap = _maps[_currentMap.y][_currentMap.x].GetMapElements();
-	auxMap[player.GetCoordinates().y][player.GetCoordinates().x] = playerPtr;
-
+	SetCurrentCoordinates(Coordinates(floor(WORLD_MAP_HEIGHT / 2), floor(WORLD_MAP_WIDTH / 2)));
+	//this->player = Player((Coordinates(floor(MAP_HEIGHT / 2), floor(MAP_WIDTH / 2))));
+	Player* playerPtr = new Player((Coordinates(floor(MAP_HEIGHT / 2), floor(MAP_WIDTH / 2))));
+	_maps[_currentMapCoordinates.y][_currentMapCoordinates.x].SetMapElementInCurrentMap(playerPtr);
 }
 
 GameManager::~GameManager()
@@ -35,13 +32,17 @@ GameManager::~GameManager()
 
 void GameManager::Loop()
 {
+	SetCurrentMap(Coordinates(floor(WORLD_MAP_HEIGHT / 2), floor(WORLD_MAP_WIDTH / 2)));
 	char lastChar = input->LastInput();
 	if (lastChar != 0) {
 		//exit = lastChar == KB_ESCAPE;
 		cout << lastChar << endl;
 	}
+	while (/*!player.IsAlive()*/true)
+	{		
+		DrawMapElements();
+	}
 
-	_maps[_currentMap.y][_currentMap.x].Draw();
 }
 
 void GameManager::Setup()
@@ -54,12 +55,30 @@ bool GameManager::CheckExit()
 	return exit;
 } 
 
-void GameManager::SetCurrentMap(Coordinates nextMapCoordinates) {
+void GameManager::SetCurrentCoordinates(Coordinates coordinates) {
 
-	this->_currentMap = nextMapCoordinates;
+	this->_currentMapCoordinates = coordinates;
 }
 
-void GameManager::SetMapElementInCurrentMap(MapElement* mapElement) {
+void GameManager::SetCurrentMap(Coordinates nextMapCoordinates) {
 
+	SetCurrentCoordinates(nextMapCoordinates);
+	this->_currentMap = _maps[_currentMapCoordinates.y][_currentMapCoordinates.x].GetMapElements();
+	this->_maps[_currentMapCoordinates.y][_currentMapCoordinates.x].Draw();
+}
+
+void GameManager::DrawMapElements() {
+
+	for (int i = 0; i < MAP_HEIGHT - 1; i++)
+	{
+		for (int j = 0; j < MAP_WIDTH; j++)
+		{
+			if (_currentMap[j][i]->GetMapElementType() != WALL && _currentMap[i][j]->GetMapElementType() != PORTAL && _currentMap[j][i]->GetMapElementType() != NONE)
+			{
+				ConsoleControl::SetPosition(j, i);
+				_currentMap[j][i]->Draw();
+			}
+		}
+	}
 
 }

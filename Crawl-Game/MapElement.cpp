@@ -9,3 +9,8 @@ Coordinates MapElement::GetCoordinates()
 {
 	return this->_currentCoordinates;
 }
+
+MapElementType MapElement::GetMapElementType() {
+
+	return this->_mapElementType;
+}

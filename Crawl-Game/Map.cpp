@@ -16,6 +16,9 @@ Map::Map(Coordinates mapOnWorldMapCoordinates, Coordinates maxWidthAndHeightOfWo
 	}
 
 	CheckPortalsAvailability(mapOnWorldMapCoordinates, maxWidthAndHeightOfWorldMap);
+	
+	_mapPtr = &_map;
+
 }
 
 void Map::CheckPortalsAvailability(Coordinates mapOnWorldMapCoordinates, Coordinates maxWidthAndHeightOfWorldMap) {
@@ -40,10 +43,12 @@ void Map::CreateMap(std::vector<bool> cardinalPortals) {
 			if ((i != 0 && i != MAP_HEIGHT - 1) && (j != 0 && j != MAP_WIDTH -1))
 			{				
 				EmptyBox* emptyBoxPtr = new EmptyBox(Coordinates(j, i));
-				this->_map[j][i] = emptyBoxPtr;
-				continue;
+				this->_map[j][i] = emptyBoxPtr;			
 			}
-			CreateBlocksOrPortals(Coordinates(j, i), cardinalPortals, portalCounter);
+			else
+			{
+				CreateBlocksOrPortals(Coordinates(j, i), cardinalPortals, portalCounter);
+			}			
 		}
 	}
 }
@@ -82,9 +87,14 @@ void Map::Draw(MapElement* mapElements) {
 	//TODO: Change Cursor with Console Control and Print mapElements
 }
 
-std::vector<std::vector<MapElement*>> Map::GetMapElements() {
+std::vector<std::vector<MapElement*>>* Map::GetMapElements() {
 
-	return this->_map;
+	return this->_mapPtr;
+}
+
+void Map::SetMapElementInCurrentMap(MapElement* mapElement) {
+
+	this->_map[mapElement->GetCoordinates().y][mapElement->GetCoordinates().x] = mapElement;
 }
 
 void Map::Draw() {
@@ -95,7 +105,15 @@ void Map::Draw() {
 		{
 			if (_map[i][j] != nullptr)
 			{
-				_map[i][j]->Draw();
+				if ((i == 0 || i == MAP_HEIGHT - 1) || (j == 0 || j == MAP_WIDTH - 1))
+				{
+					_map[i][j]->Draw();
+				}
+				else 
+				{
+					std::cout << ' ';
+				}
+				
 			}
 		}		
 		std::cout << std::endl;

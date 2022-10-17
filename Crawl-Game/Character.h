@@ -23,7 +23,6 @@ public:
 	void IsAlive();
 	virtual void Die() = 0;
 	void ModifyHealthValueOnTakeDamageOrHeal(int modifyValue);
-	//virtual void InteractWithEntityLootable(EntityLootable* entityLootable) = 0;
 	void SetTargetCoordinatesToMove(Coordinates coordinates);
 	Coordinates GetTargetCoordinatesToMove();
 };
