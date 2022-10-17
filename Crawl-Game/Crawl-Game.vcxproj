@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Autosave.h" />
     <ClInclude Include="ConsoleControl.h" />
     <ClInclude Include="Coordinates.h" />
     <ClInclude Include="EntityLootable.h" />
@@ -136,6 +137,7 @@
     <ClInclude Include="ThreadManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Autosave.cpp" />
     <ClCompile Include="ConsoleControl.cpp" />
     <ClCompile Include="EntityLootable.cpp" />
     <ClCompile Include="GameManager.cpp" />
