@@ -7,13 +7,13 @@ EntityLootable::EntityLootable() {
 	switch (rand() % 3)
 	{
 	case 0:
-		*this->_drop = Potion();
+		this->_drop = new Potion();
 		break;
 	case 1:
-		*this->_drop = Coin();
+		this->_drop = new Coin();
 		break;
 	case 2:
-		*this->_drop = Weapon();
+		this->_drop = new Weapon();
 		break;
 
 	default:
