@@ -16,9 +16,8 @@ Map::Map(Coordinates mapOnWorldMapCoordinates, Coordinates maxWidthAndHeightOfWo
 	}
 
 	CheckPortalsAvailability(mapOnWorldMapCoordinates, maxWidthAndHeightOfWorldMap);
-	
-	_mapPtr = &_map;
 
+	CreatePointers();
 }
 
 void Map::CheckPortalsAvailability(Coordinates mapOnWorldMapCoordinates, Coordinates maxWidthAndHeightOfWorldMap) {
@@ -72,6 +71,19 @@ void Map::CreateBlocksOrPortals(Coordinates coordinates, std::vector<bool> cardi
 	this->_map[coordinates.y][coordinates.x] = blockPtr;
 }
 
+void Map::CreatePointers() {
+
+	for (int i = 0; i < MAP_HEIGHT; i++)
+	{
+		std::vector<MapElement*>* auxMapElementPtr = new std::vector<MapElement*>();
+		for (int j = 0; j < MAP_WIDTH; j++)
+		{
+			auxMapElementPtr->push_back(_map[i][j]);
+		}
+		this->_mapPtr->push_back(auxMapElementPtr);
+	}
+}
+
 void Map::CheckCollision(MapElement* mapElement) {
 
 
@@ -87,7 +99,7 @@ void Map::Draw(MapElement* mapElements) {
 	//TODO: Change Cursor with Console Control and Print mapElements
 }
 
-std::vector<std::vector<MapElement*>>* Map::GetMapElements() {
+std::vector<std::vector<MapElement*>*>* Map::GetMapElements() {
 
 	return this->_mapPtr;
 }
@@ -95,6 +107,8 @@ std::vector<std::vector<MapElement*>>* Map::GetMapElements() {
 void Map::SetMapElementInCurrentMap(MapElement* mapElement) {
 
 	this->_map[mapElement->GetCoordinates().y][mapElement->GetCoordinates().x] = mapElement;
+	std::vector<MapElement*>* auxPtr = this->_mapPtr->at(mapElement->GetCoordinates().y);
+	auxPtr->at(mapElement->GetCoordinates().x) = _map[mapElement->GetCoordinates().y][mapElement->GetCoordinates().x];
 }
 
 void Map::Draw() {

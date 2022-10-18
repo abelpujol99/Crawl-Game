@@ -27,8 +27,8 @@ private:
 	ThreadManager* threadManager;
 	Input* input;
 	GameUI* gameUI;	
-	std::vector<std::vector<Map>> _maps;
-	std::vector<std::vector<MapElement*>>* _currentMap;
+	std::vector<std::vector<Map*>> _maps;
+	std::vector<std::vector<MapElement*>*>* _currentMap;
 	Player player;
 	Coordinates _currentMapCoordinates;
 
