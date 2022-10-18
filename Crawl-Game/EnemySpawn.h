@@ -1,13 +1,15 @@
 #pragma once
 #include <time.h>
 
+#define MAX_SPAWN_TIME 15000
+#define MIN_SPAWN_TIME 10000
+
 class EnemySpawn {
 private:
-	//GameManager* gm;
-
-	void Spawn();
-	bool CheckSpawnTime();
+	clock_t targetTime;
+	void RestartTimer();
 public:
-	//EnemySpawn(GameManager* gameManager);
+	EnemySpawn();
 	void Run();
+	bool CheckSpawn();
 };

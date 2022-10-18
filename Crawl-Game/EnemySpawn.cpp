@@ -2,26 +2,25 @@
 #include <ctime>
 #include <iostream>
 
-/*EnemySpawn::EnemySpawn(GameManager* gameManager) {
-	//gm = gameManager;
-}*/
+EnemySpawn::EnemySpawn() {
+	targetTime = 0;
+}
 
 void EnemySpawn::Run() {
-	srand(time(NULL));
-
+	RestartTimer();
 	while (true) {
-		if (CheckSpawnTime()) {
-
-		}
+		
 	}
 }
 
-bool EnemySpawn::CheckSpawnTime() {
-	clock_t begin = clock();
-	std::cout << begin << std::endl;
-	return false;
+void EnemySpawn::RestartTimer() {
+	targetTime = clock() + (rand() % (MAX_SPAWN_TIME - MIN_SPAWN_TIME)) + MIN_SPAWN_TIME;
 }
 
-void EnemySpawn::Spawn() {
-	//gm->AddEnemy();
+bool EnemySpawn::CheckSpawn() {
+	if (clock() >= targetTime) {
+		RestartTimer();
+		return true;
+	}
+	return false;
 }

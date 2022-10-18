@@ -6,6 +6,7 @@
 #include "ThreadManager.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "EnemyPlacer.h"
 #include "Chest.h"
 #include "Coin.h"
 #include "Potion.h"
@@ -15,6 +16,7 @@
 #include "EmptyBox.h"
 #include "GameUI.h"
 #include "Map.h"
+#include <time.h>
 
 #define WORLD_MAP_WIDTH 3
 #define WORLD_MAP_HEIGHT 3
@@ -23,14 +25,20 @@
 class GameManager
 {
 private:
-	bool exit;
-	ThreadManager* threadManager;
-	Input* input;
-	EnemySpawn* enemySpawn;
-	GameUI* gameUI;	
+	bool _exit;
+	ThreadManager* _threadManager;
+	Input* _input;
+
+	GameUI* _gameUI;	
+
 	std::vector<std::vector<Map>> _maps;
-	Player player;
 	Coordinates _currentMap;
+
+	Player _player;
+
+	std::vector<EntityLootable*> _entityLootables;
+	EnemySpawn* _enemySpawn;
+	EnemyPlacer* _enemyPlacer;
 
 public:
 

@@ -2,11 +2,11 @@
 
 GameManager::GameManager()
 {
-	exit = false;
-	threadManager = new ThreadManager();
-	input = new Input();
-	enemySpawn = new EnemySpawn();
-	gameUI = new GameUI();
+	_exit = false;
+	_threadManager = new ThreadManager();
+	_input = new Input();
+	_enemySpawn = new EnemySpawn();
+	_gameUI = new GameUI();
 	
 	for (int i = 0; i < WORLD_MAP_HEIGHT; i++)
 	{
@@ -20,19 +20,25 @@ GameManager::GameManager()
 	}
 
 	_currentMap = Coordinates(floor(WORLD_MAP_HEIGHT / 2), floor(WORLD_MAP_WIDTH / 2));
-	this->player = Player((Coordinates(floor(MAP_HEIGHT / 2), floor(MAP_WIDTH / 2))));
-	Player* playerPtr = &player;
+	this->_player = Player((Coordinates(floor(MAP_HEIGHT / 2), floor(MAP_WIDTH / 2))));
+	Player* playerPtr = &_player;
 	
 	std::vector<std::vector<MapElement*>> auxMap = _maps[_currentMap.y][_currentMap.x].GetMapElements();
-	auxMap[player.GetCoordinates().y][player.GetCoordinates().x] = playerPtr;
+	auxMap[_player.GetCoordinates().y][_player.GetCoordinates().x] = playerPtr;
 
 }
 
 GameManager::~GameManager()
 {
-	delete threadManager;
-	delete input;
-	delete gameUI;
+	delete _threadManager;
+	delete _input;
+	delete _enemySpawn;
+	delete _gameUI;
+
+	for (auto entityLootable : _entityLootables) {
+		delete entityLootable;
+	}
+	_entityLootables.clear();
 }
 
 void GameManager::Loop()
@@ -40,23 +46,31 @@ void GameManager::Loop()
 	_maps[_currentMap.y][_currentMap.x].Draw();
 
 	while (!CheckExit()) {
-		char lastChar = input->LastInput();
+		char lastChar = _input->LastInput();
 		if (lastChar != 0) {
-			exit = lastChar == KB_ESCAPE;
+			_exit = lastChar == KB_ESCAPE;
 			//cout << lastChar << endl;
+		}
+
+		if (_enemySpawn->CheckSpawn()) {
+			Enemy* spawnedEnemy = _enemyPlacer->PlaceEnemy(_maps[_currentMap.y][_currentMap.x]);
+			_entityLootables.push_back(spawnedEnemy);
+			
+			cout << "Spawned enemy: " << spawnedEnemy->GetCoordinates().x << ", " << spawnedEnemy->GetCoordinates().y << std::endl;
 		}
 	}
 }
 
 void GameManager::Setup()
 {
-	threadManager->StartInputThread(input);
-	threadManager->StartSpawnThread(enemySpawn);
+	srand(time(NULL));
+	_threadManager->StartInputThread(_input);
+	_threadManager->StartSpawnThread(_enemySpawn);
 }
 
 bool GameManager::CheckExit()
 {
-	return exit;
+	return _exit;
 } 
 
 void GameManager::SetCurrentMap(Coordinates nextMapCoordinates) {
