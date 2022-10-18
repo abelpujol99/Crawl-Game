@@ -28,6 +28,7 @@ GameManager::~GameManager()
 	delete threadManager;
 	delete input;
 	delete gameUI;
+	delete player;
 }
 
 void GameManager::Loop()

@@ -15,5 +15,6 @@ public:
 	Enemy(Coordinates coordinates);
 	void Move() override;
 	void Die() override;
+	Coordinates GetCoordinates();
 	void Draw() override;
 };
