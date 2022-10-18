@@ -14,13 +14,11 @@ class Map {
 
 private:
 
-	std::vector<std::vector<MapElement*>> _map;
 	std::vector<std::vector<MapElement*>*>* _mapPtr = new std::vector<std::vector<MapElement*>*>();
 
 	void CheckPortalsAvailability(Coordinates mapOnWorldMapCoordinates, Coordinates maxWidthAndHeightOfWorldMap);
 	void CreateMap(std::vector<bool> cardinalPortals);
-	void CreateBlocksOrPortals(Coordinates coordinates, std::vector<bool> cardinalPortals, int& portalCounters);
-	void CreatePointers();
+	void CreateBlocksOrPortals(Coordinates coordinates, std::vector<bool> cardinalPortals, int& portalCounters, MapElement* auxMapElement);
 
 public:
 
