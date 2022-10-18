@@ -2,8 +2,10 @@
 
 GameManager::GameManager()
 {
+	exit = false;
 	threadManager = new ThreadManager();
 	input = new Input();
+	enemySpawn = new EnemySpawn();
 	gameUI = new GameUI();
 	
 	for (int i = 0; i < WORLD_MAP_HEIGHT; i++)
@@ -35,18 +37,21 @@ GameManager::~GameManager()
 
 void GameManager::Loop()
 {
-	char lastChar = input->LastInput();
-	if (lastChar != 0) {
-		//exit = lastChar == KB_ESCAPE;
-		cout << lastChar << endl;
-	}
-
 	_maps[_currentMap.y][_currentMap.x].Draw();
+
+	while (!CheckExit()) {
+		char lastChar = input->LastInput();
+		if (lastChar != 0) {
+			exit = lastChar == KB_ESCAPE;
+			//cout << lastChar << endl;
+		}
+	}
 }
 
 void GameManager::Setup()
 {
 	threadManager->StartInputThread(input);
+	threadManager->StartSpawnThread(enemySpawn);
 }
 
 bool GameManager::CheckExit()

@@ -8,7 +8,7 @@ class Enemy : public Character, public EntityLootable {
 
 private:
 
-	std::thread _movement;
+	std::thread* _movement;
 
 public:
 

@@ -19,12 +19,14 @@
 #define WORLD_MAP_WIDTH 3
 #define WORLD_MAP_HEIGHT 3
 
+
 class GameManager
 {
 private:
-
+	bool exit;
 	ThreadManager* threadManager;
 	Input* input;
+	EnemySpawn* enemySpawn;
 	GameUI* gameUI;	
 	std::vector<std::vector<Map>> _maps;
 	Player player;
