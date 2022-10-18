@@ -29,6 +29,7 @@ public:
 	void Draw(MapElement* mapElements);
 	void AddMapElement(MapElement* mapElement);
 	std::vector<std::vector<MapElement*>*>* GetMapElements();
-	void SetMapElementInCurrentMap(MapElement* mapElemnt);
+	void SetMapElementInCurrentMap(MapElement* mapElement);
+	void SwapMapElementsInCurrentMap(std::vector<MapElement*> mapElementsToSwap);
 	void Draw();
 };

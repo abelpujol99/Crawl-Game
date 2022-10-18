@@ -29,7 +29,7 @@ private:
 	GameUI* gameUI;	
 	std::vector<std::vector<Map*>> _maps;
 	std::vector<std::vector<MapElement*>*>* _currentMap;
-	Player player;
+	Player* player;
 	Coordinates _currentMapCoordinates;
 
 public:
@@ -39,7 +39,6 @@ public:
 	void Setup();
 	void Loop();
 	bool CheckExit();
-	void SetCurrentCoordinates(Coordinates currentCoordinates);
 	void SetCurrentMap(Coordinates nextMapCoordinates);
 	void SetMapElementInCurrentMap(MapElement* mapElement);
 	void DrawMapElements();

@@ -6,21 +6,21 @@ GameManager::GameManager()
 	input = new Input();
 	gameUI = new GameUI();
 	
-	for (int i = 0; i < WORLD_MAP_HEIGHT; i++)
+	for (int i = 0; i < WORLD_MAP_WIDTH; i++)
 	{
 		std::vector<Map*> auxMap = std::vector<Map*>();
 
-		for (int j = 0; j < WORLD_MAP_WIDTH; j++)
+		for (int j = 0; j < WORLD_MAP_HEIGHT; j++)
 		{
-			auxMap.push_back(new Map(Coordinates(i, j), Coordinates(WORLD_MAP_HEIGHT, WORLD_MAP_WIDTH)));
+			auxMap.push_back(new Map(Coordinates(i, j), Coordinates(WORLD_MAP_WIDTH, WORLD_MAP_HEIGHT)));
 		}
 		_maps.push_back(auxMap);
 	}
 
-	SetCurrentCoordinates(Coordinates(floor(WORLD_MAP_HEIGHT / 2), floor(WORLD_MAP_WIDTH / 2)));
+	SetCurrentMap(Coordinates(floor(0), floor(0)));
 	//this->player = Player((Coordinates(floor(MAP_HEIGHT / 2), floor(MAP_WIDTH / 2))));
-	Player* playerPtr = new Player((Coordinates(floor(MAP_HEIGHT / 2), floor(MAP_WIDTH / 2))));
-	_maps[_currentMapCoordinates.y][_currentMapCoordinates.x]->SetMapElementInCurrentMap(playerPtr);
+	player = new Player((Coordinates(floor(MAP_HEIGHT / 2), floor(MAP_WIDTH / 2))));
+	_maps[_currentMapCoordinates.x][_currentMapCoordinates.y]->SetMapElementInCurrentMap(player);
 }
 
 GameManager::~GameManager()
@@ -32,7 +32,7 @@ GameManager::~GameManager()
 
 void GameManager::Loop()
 {
-	SetCurrentMap(Coordinates(floor(WORLD_MAP_HEIGHT / 2), floor(WORLD_MAP_WIDTH / 2)));
+	//SetCurrentMap(Coordinates(floor(WORLD_MAP_HEIGHT / 2), floor(WORLD_MAP_WIDTH / 2)));
 	char lastChar = input->LastInput();
 	if (lastChar != 0) {
 		//exit = lastChar == KB_ESCAPE;
@@ -41,6 +41,25 @@ void GameManager::Loop()
 	while (/*!player.IsAlive()*/true)
 	{		
 		DrawMapElements();
+
+		char input;
+		cin >> input;
+
+		if (input == 'd')
+		{
+			player->SetTargetCoordinatesToMove(Coordinates(player->GetCoordinates().x + 1, player->GetCoordinates().y));
+			std::vector<MapElement*>* mapElementCoordinates = _currentMap->at(player->GetTargetCoordinatesToMove().y);
+			MapElement* mapElement = mapElementCoordinates->at(player->GetTargetCoordinatesToMove().x);
+			if (mapElement->GetMapElementType() == NONE)
+			{
+				std::vector<MapElement*> mapElementsToSwap;
+				mapElementsToSwap.push_back(player);
+				mapElementsToSwap.push_back(mapElement);
+				_maps[_currentMapCoordinates.x][_currentMapCoordinates.y]->SwapMapElementsInCurrentMap(mapElementsToSwap);
+			}
+
+			//std::cout << mapElementCoordinates->at(player->GetTargetCoordinatesToMove().y) << std::endl << mapElement << std::endl;
+		}
 	}
 
 }
@@ -55,16 +74,11 @@ bool GameManager::CheckExit()
 	return exit;
 } 
 
-void GameManager::SetCurrentCoordinates(Coordinates coordinates) {
-
-	this->_currentMapCoordinates = coordinates;
-}
-
 void GameManager::SetCurrentMap(Coordinates nextMapCoordinates) {
 
-	SetCurrentCoordinates(nextMapCoordinates);
-	this->_currentMap = _maps[_currentMapCoordinates.y][_currentMapCoordinates.x]->GetMapElements();
-	this->_maps[_currentMapCoordinates.y][_currentMapCoordinates.x]->Draw();
+	this->_currentMapCoordinates = nextMapCoordinates;
+	this->_currentMap = _maps[_currentMapCoordinates.x][_currentMapCoordinates.y]->GetMapElements();
+	this->_maps[_currentMapCoordinates.x][_currentMapCoordinates.y]->Draw();
 }
 
 void GameManager::DrawMapElements() {
@@ -79,7 +93,7 @@ void GameManager::DrawMapElements() {
 				&& auxMapElement->at(i)->GetMapElementType() != PORTAL
 				&& auxMapElement->at(i)->GetMapElementType() != NONE)
 			{
-				ConsoleControl::SetPosition(j, i);
+				ConsoleControl::SetPosition(i, j);
 				auxMapElement->at(i)->Draw();
 			}
 		}
