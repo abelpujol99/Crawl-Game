@@ -15,6 +15,7 @@ protected:
 
 public:
 	
+	~MapElement();
 	void SetCoordinates(Coordinates coordinates);
 	virtual void Draw() = 0;
 	Coordinates GetCoordinates();

@@ -27,6 +27,7 @@ protected:
 public:
 
 	EntityLootable();
+	virtual ~EntityLootable();
 	void Spawn(Coordinates coordinate);
 	//virtual void AcceptCharacter(Player* player) = 0;
 };
