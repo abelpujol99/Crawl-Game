@@ -109,10 +109,8 @@ std::vector<std::vector<MapElement*>*>* Map::GetMapElements() {
 
 void Map::SetMapElementInCurrentMap(MapElement* mapElement) {
 
-	//this->_map[mapElement->GetCoordinates().y][mapElement->GetCoordinates().x] = mapElement;
-
-	//std::vector<MapElement*>* elementToInsertCoordinates = this->_mapPtr->at(mapElement->GetCoordinates().y);
-	//elementToInsertCoordinates->at(mapElement->GetCoordinates().x) = _map[mapElement->GetCoordinates().x][mapElement->GetCoordinates().y];
+	std::vector<MapElement*>* elementToInsertCoordinates = this->_mapPtr->at(mapElement->GetCoordinates().y);
+	elementToInsertCoordinates->at(mapElement->GetCoordinates().x) = mapElement;
 
 	//MapElement* elementToInsert = elementToInsertCoordinates->at(mapElement->GetCoordinates().x);
 	//elementToInsert = _map[mapElement->GetCoordinates().y][mapElement->GetCoordinates().x];

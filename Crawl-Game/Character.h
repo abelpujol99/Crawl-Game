@@ -20,8 +20,7 @@ public:
 	Character();
 	Character(Coordinates coordinates);
 	virtual void Move() = 0;
-	void IsAlive();
-	virtual void Die() = 0;
+	bool IsAlive();
 	void ModifyHealthValueOnTakeDamageOrHeal(int modifyValue);
 	void SetTargetCoordinatesToMove(Coordinates coordinates);
 	Coordinates GetTargetCoordinatesToMove();

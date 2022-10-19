@@ -18,12 +18,9 @@ void Character::ModifyHealthValueOnTakeDamageOrHeal(int modifyValue) {
 	this->_health += modifyValue;
 }
 
-void Character::IsAlive() {
+bool Character::IsAlive() {
 
-	if (this->_health <= 0)
-	{
-		this->Die();
-	}
+	return _health >= 0;
 }
 
 void Character::SetTargetCoordinatesToMove(Coordinates coordinates) {

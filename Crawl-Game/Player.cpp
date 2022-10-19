@@ -26,11 +26,6 @@ void Player::HealYourself() {
 	this->_currentWeapon = weaponOfInventory;
 }*/
 
-void Player::Die() {
-
-	//TODO: RESET THE GAME
-}
-
 void Player::Draw() {
 
 	std::cout << 'P';

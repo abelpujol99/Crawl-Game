@@ -17,8 +17,7 @@ GameManager::GameManager()
 		_maps.push_back(auxMap);
 	}
 
-	SetCurrentMap(Coordinates(floor(0), floor(0)));
-	//this->player = Player((Coordinates(floor(MAP_HEIGHT / 2), floor(MAP_WIDTH / 2))));
+	SetCurrentMap(Coordinates(floor(WORLD_MAP_HEIGHT / 2), floor(WORLD_MAP_WIDTH / 2)));
 	player = new Player((Coordinates(floor(MAP_HEIGHT / 2), floor(MAP_WIDTH / 2))));
 	_maps[_currentMapCoordinates.x][_currentMapCoordinates.y]->SetMapElementInCurrentMap(player);
 }
@@ -33,15 +32,14 @@ GameManager::~GameManager()
 
 void GameManager::Loop()
 {
-	//SetCurrentMap(Coordinates(floor(WORLD_MAP_HEIGHT / 2), floor(WORLD_MAP_WIDTH / 2)));
 	char lastChar = input->LastInput();
 	if (lastChar != 0) {
 		//exit = lastChar == KB_ESCAPE;
 		cout << lastChar << endl;
 	}
-	while (/*!player.IsAlive()*/true)
+	while (player->IsAlive())
 	{		
-		//DrawMapElements();
+		DrawMapElements();
 
 		char input;
 		cin >> input;
@@ -79,6 +77,7 @@ void GameManager::SetCurrentMap(Coordinates nextMapCoordinates) {
 
 	this->_currentMapCoordinates = nextMapCoordinates;
 	this->_currentMap = _maps[_currentMapCoordinates.x][_currentMapCoordinates.y]->GetMapElements();
+	ConsoleControl::SetPosition(0, 0);
 	this->_maps[_currentMapCoordinates.x][_currentMapCoordinates.y]->Draw();
 }
 
@@ -91,8 +90,7 @@ void GameManager::DrawMapElements() {
 			std::vector<MapElement*>* auxMapElement = _currentMap->at(j);
 
 			if (auxMapElement->at(i)->GetMapElementType() != WALL
-				&& auxMapElement->at(i)->GetMapElementType() != PORTAL
-				&& auxMapElement->at(i)->GetMapElementType() != NONE)
+				&& auxMapElement->at(i)->GetMapElementType() != PORTAL)
 			{
 				ConsoleControl::SetPosition(i, j);
 				auxMapElement->at(i)->Draw();

@@ -5,6 +5,11 @@ Enemy::Enemy(Coordinates coordinates) : Character(coordinates), EntityLootable()
 	Character::_mapElementType = ENEMY;
 }
 
+Enemy::~Enemy() {
+
+	delete _movement;
+}
+
 void Enemy::Move() {
 
 
