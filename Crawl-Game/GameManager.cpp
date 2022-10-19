@@ -41,7 +41,7 @@ void GameManager::Loop()
 	}
 	while (/*!player.IsAlive()*/true)
 	{		
-		DrawMapElements();
+		//DrawMapElements();
 
 		char input;
 		cin >> input;

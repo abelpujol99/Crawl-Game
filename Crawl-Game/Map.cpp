@@ -8,7 +8,7 @@ Map::Map(Coordinates mapOnWorldMapCoordinates, Coordinates maxWidthAndHeightOfWo
 
 		for (int j = 0; j < MAP_HEIGHT; j++)
 		{
-			MapElement* auxMapElement;
+			MapElement* auxMapElement = new EmptyBox(Coordinates(i, j));
 			auxMapElements->push_back(auxMapElement);
 		}
 
@@ -40,15 +40,13 @@ void Map::CreateMap(std::vector<bool> cardinalPortals) {
 		std::vector<MapElement*>* auxMapElements = _mapPtr->at(i);
 		for (int j = 0; j < MAP_HEIGHT; j++)
 		{
-			MapElement* auxMapElement = auxMapElements->at(j);
 			if ((i != 0 && i != MAP_HEIGHT - 1) && (j != 0 && j != MAP_WIDTH -1))
-			{				
-				MapElement* emptyBoxPtr = new EmptyBox(Coordinates(j, i));
-				auxMapElement = emptyBoxPtr;
+			{
+				auxMapElements->at(j) = new EmptyBox(Coordinates(j, i));
 			}
 			else
 			{
-				CreateBlocksOrPortals(Coordinates(i, j), cardinalPortals, portalCounter, auxMapElement);
+				CreateBlocksOrPortals(Coordinates(i, j), cardinalPortals, portalCounter, auxMapElements);
 			}			
 		}
 		std::cout << std::endl;
@@ -56,14 +54,13 @@ void Map::CreateMap(std::vector<bool> cardinalPortals) {
 	std::cout << std::endl;
 }
 
-void Map::CreateBlocksOrPortals(Coordinates coordinates, std::vector<bool> cardinalPortals, int& portalCounter, MapElement* auxMapElement) {
+void Map::CreateBlocksOrPortals(Coordinates coordinates, std::vector<bool> cardinalPortals, int& portalCounter, std::vector<MapElement*>* auxMapElements) {
 
 	if (coordinates.y == floor((MAP_HEIGHT - 1) / 2) || coordinates.x == floor((MAP_WIDTH - 1) /2))
 	{
 		if (cardinalPortals[portalCounter])
 		{
-			MapElement* portalPtr = new Portal(Coordinates(coordinates.x, coordinates.y));
-			auxMapElement = portalPtr;
+			auxMapElements->at(coordinates.y) = new Portal(Coordinates(coordinates.x, coordinates.y));
 		}
 		portalCounter++;
 		if (cardinalPortals[portalCounter - 1])
@@ -71,8 +68,7 @@ void Map::CreateBlocksOrPortals(Coordinates coordinates, std::vector<bool> cardi
 			return;
 		}
 	}
-	MapElement* blockPtr = new Block(Coordinates(coordinates.x, coordinates.y));
-	auxMapElement = blockPtr;
+	auxMapElements->at(coordinates.y) = new Block(Coordinates(coordinates.x, coordinates.y));
 }
 
 /*void Map::CreatePointers() {
@@ -142,11 +138,11 @@ void Map::Draw() {
 	{
 		for (int j = 0; j < _mapPtr->at(i)->size(); j++)
 		{
-			if (_mapPtr[i][j] != nullptr)
+			std::vector<MapElement*>* auxMapElementCoordinates = _mapPtr->at(i);
+			MapElement* auxMapElement = auxMapElementCoordinates->at(j);
+			if (auxMapElement != nullptr)
 			{
-				std::vector<MapElement*>* mapElementToDrawCoordinates = _mapPtr->at(i);
-				MapElement* mapElementToDraw = mapElementToDrawCoordinates->at(j);
-				mapElementToDraw->Draw();
+				auxMapElement->Draw();
 			}
 		}		
 		std::cout << std::endl;

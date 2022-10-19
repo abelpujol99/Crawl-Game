@@ -18,7 +18,7 @@ private:
 
 	void CheckPortalsAvailability(Coordinates mapOnWorldMapCoordinates, Coordinates maxWidthAndHeightOfWorldMap);
 	void CreateMap(std::vector<bool> cardinalPortals);
-	void CreateBlocksOrPortals(Coordinates coordinates, std::vector<bool> cardinalPortals, int& portalCounters, MapElement* auxMapElement);
+	void CreateBlocksOrPortals(Coordinates coordinates, std::vector<bool> cardinalPortals, int& portalCounters, std::vector<MapElement*>* auxMapElements);
 
 public:
 
