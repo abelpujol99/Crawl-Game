@@ -2,12 +2,21 @@
 #include <iostream>
 #include "MapElement.h"
 
+enum CardinalPoints {NORTH = 0, EAST = 1, WEST = 2, SOUTH = 3};
+
 class Portal : public MapElement
 {
 
-public:
+private:
 
+	CardinalPoints _cardinalPoint;
+
+
+public:
+	
 	Portal(Coordinates coordinates);
-	void Teleport(Coordinates& currentPlayerMinimapCoordinates);
+	/////WHEN ALL WORKS FINE REDO PORTALS!!!!!
+	//Portal(Coordinates coordinates, CardinalPoints cardinalPoint);
+	Coordinates Teleport(Coordinates currentWorldMapCoordinates);
 	void Draw() override;
 };

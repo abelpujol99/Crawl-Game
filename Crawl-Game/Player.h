@@ -20,7 +20,6 @@ public:
 	//void InteractWithEntityLootable(EntityLootable* entityLootable) override;
 	void HealYourself();
 	//void ChangeCurrentWeapon(InventoryWeapon weaponOfInventory);
-	void Die() override;
 	void Draw() override;
 	//void AcceptCharacter();
 };

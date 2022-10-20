@@ -1,4 +1,10 @@
 #include "Map.h"
+#include "Coordinates.h"
+#include "MapElement.h"
+#include "Character.h"
+#include "Portal.h"
+#include "Block.h"
+#include "EmptyBox.h"
 
 Map::Map(Coordinates mapOnWorldMapCoordinates, Coordinates maxWidthAndHeightOfWorldMap) {	
 
@@ -16,8 +22,6 @@ Map::Map(Coordinates mapOnWorldMapCoordinates, Coordinates maxWidthAndHeightOfWo
 	}
 
 	CheckPortalsAvailability(mapOnWorldMapCoordinates, maxWidthAndHeightOfWorldMap);
-
-	//CreatePointers();
 }
 
 void Map::CheckPortalsAvailability(Coordinates mapOnWorldMapCoordinates, Coordinates maxWidthAndHeightOfWorldMap) {
@@ -46,7 +50,7 @@ void Map::CreateMap(std::vector<bool> cardinalPortals) {
 			}
 			else
 			{
-				CreateBlocksOrPortals(Coordinates(i, j), cardinalPortals, portalCounter, auxMapElements);
+				CreateBlocksOrPortals(Coordinates(j, i), cardinalPortals, portalCounter, auxMapElements);
 			}			
 		}
 		std::cout << std::endl;
@@ -56,11 +60,12 @@ void Map::CreateMap(std::vector<bool> cardinalPortals) {
 
 void Map::CreateBlocksOrPortals(Coordinates coordinates, std::vector<bool> cardinalPortals, int& portalCounter, std::vector<MapElement*>* auxMapElements) {
 
-	if (coordinates.y == floor((MAP_HEIGHT - 1) / 2) || coordinates.x == floor((MAP_WIDTH - 1) /2))
+	if ((coordinates.y == floor(MAP_HEIGHT / 2)) || (coordinates.x == floor(MAP_WIDTH / 2)))
 	{
 		if (cardinalPortals[portalCounter])
 		{
-			auxMapElements->at(coordinates.y) = new Portal(Coordinates(coordinates.x, coordinates.y));
+			_portals.push_back(new Portal(Coordinates(coordinates.x, coordinates.y)));
+			auxMapElements->at(coordinates.x) = _portals[_portals.size() - 1];
 		}
 		portalCounter++;
 		if (cardinalPortals[portalCounter - 1])
@@ -68,66 +73,54 @@ void Map::CreateBlocksOrPortals(Coordinates coordinates, std::vector<bool> cardi
 			return;
 		}
 	}
-	auxMapElements->at(coordinates.y) = new Block(Coordinates(coordinates.x, coordinates.y));
+	auxMapElements->at(coordinates.x) = new Block(Coordinates(coordinates.x, coordinates.y));
 }
 
-/*void Map::CreatePointers() {
+MapElement** Map::SelectMapElement(Coordinates coordinates) {
 
-	for (int i = 0; i < MAP_WIDTH; i++)
-	{
-		std::vector<MapElement*>* auxMapElementPtr = new std::vector<MapElement*>();
-		for (int j = 0; j < MAP_HEIGHT; j++)
-		{
-			auxMapElementPtr->push_back(_map[i][j]);
-			std::cout << "(" << _map[i][j]->GetCoordinates().x << ", " << _map[i][j]->GetCoordinates().y << ")" << std::flush;
-			std::cout << "(" << auxMapElementPtr->at(j)->GetCoordinates().x << ", " << auxMapElementPtr->at(j)->GetCoordinates().y << ")" << std::endl;
-		}
-		this->_mapPtr->push_back(auxMapElementPtr);
-		std::cout << std::endl;
-	}
-}*/
-
-void Map::CheckCollision(MapElement* mapElement) {
-
-
+	std::vector<MapElement*>* elementToInsertCoordinates = this->_mapPtr->at(coordinates.y);
+	return &elementToInsertCoordinates->at(coordinates.x);
 }
 
-void Map::AddMapElement(MapElement* mapElement) {
+MapElement* Map::CheckCollision(Coordinates coordinates) {
 
-
+	return *SelectMapElement(coordinates);
 }
 
-void Map::Draw(MapElement* mapElements) {
-
-	//TODO: Change Cursor with Console Control and Print mapElements
-}
+//void Map::Draw(MapElement* mapElements) {
+//
+//	//TODO: Change Cursor with Console Control and Print mapElements
+//}
 
 std::vector<std::vector<MapElement*>*>* Map::GetMapElements() {
 
 	return this->_mapPtr;
 }
 
-void Map::SetMapElementInCurrentMap(MapElement* mapElement) {
+std::vector<Portal*> Map::GetPortals() {
 
-	std::vector<MapElement*>* elementToInsertCoordinates = this->_mapPtr->at(mapElement->GetCoordinates().y);
-	elementToInsertCoordinates->at(mapElement->GetCoordinates().x) = mapElement;
-
-	//MapElement* elementToInsert = elementToInsertCoordinates->at(mapElement->GetCoordinates().x);
-	//elementToInsert = _map[mapElement->GetCoordinates().y][mapElement->GetCoordinates().x];
+	return _portals;
 }
 
-void Map::SwapMapElementsInCurrentMap(std::vector<MapElement*> mapElementsToSwap) {
+void Map::MoveCharacter(Character* character) {
 
-	Coordinates coordinatesToSwap = mapElementsToSwap[0]->GetCoordinates();
-	mapElementsToSwap[0]->SetCoordinates(mapElementsToSwap[1]->GetCoordinates());
-	mapElementsToSwap[1]->SetCoordinates(coordinatesToSwap);
+	SetEmptyBox(character->GetCoordinates());
+	character->SetCoordinates(character->GetTargetCoordinatesToMove());
 
-	for (int i = 0; i < mapElementsToSwap.size(); i++)
-	{
-		this->SetMapElementInCurrentMap(mapElementsToSwap[i]);
-	}
+	MapElement** mapElementPtr = SelectMapElement(character->GetCoordinates());
+	*mapElementPtr = character;
+}
 
+void Map::SetEmptyBox(Coordinates coordinates) {
 
+	MapElement** mapElemenPtrPtr = SelectMapElement(coordinates);
+	*mapElemenPtrPtr = new EmptyBox(Coordinates(coordinates.x, coordinates.y));
+}
+
+void Map::SetMapElement(MapElement* mapElement) {
+
+	MapElement** mapElementPtrPtr = SelectMapElement(mapElement->GetCoordinates());
+	*mapElementPtrPtr = mapElement;
 }
 
 void Map::Draw() {
@@ -136,11 +129,10 @@ void Map::Draw() {
 	{
 		for (int j = 0; j < _mapPtr->at(i)->size(); j++)
 		{
-			std::vector<MapElement*>* auxMapElementCoordinates = _mapPtr->at(i);
-			MapElement* auxMapElement = auxMapElementCoordinates->at(j);
-			if (auxMapElement != nullptr)
+			MapElement** mapElementPtrPtr = SelectMapElement(Coordinates(i, j));
+			if (*mapElementPtrPtr != nullptr)
 			{
-				auxMapElement->Draw();
+				mapElementPtrPtr[0]->Draw();
 			}
 		}		
 		std::cout << std::endl;
