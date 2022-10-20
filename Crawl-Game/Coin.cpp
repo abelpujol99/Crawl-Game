@@ -15,5 +15,5 @@ int Coin::GetPoints() {
 
 void Coin::Draw() {
 
-	std::cout << 'M' << std::endl;
+	std::cout << 'M';
 }

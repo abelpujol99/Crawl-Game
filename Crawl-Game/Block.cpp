@@ -8,6 +8,5 @@ Block::Block(Coordinates coordinates) {
 
 void Block::Draw() {
 
-	std::cout << '#' << std::endl;
+	std::cout << '#';
 }
-

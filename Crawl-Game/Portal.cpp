@@ -41,5 +41,5 @@ void Portal::Teleport(Coordinates& currentPlayerMinimapCoordinates){
 
 void Portal::Draw() {
 
-	std::cout << 'T' << std::endl;
+	std::cout << 'T';
 }

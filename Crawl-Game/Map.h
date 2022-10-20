@@ -9,7 +9,6 @@
 
 #define MAP_WIDTH 7
 #define MAP_HEIGHT 7
-#define MAX_NUM_PORTALS 4
 
 class Map {
 

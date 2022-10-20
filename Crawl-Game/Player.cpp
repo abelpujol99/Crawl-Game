@@ -16,11 +16,6 @@ void Player::Move() {
 
 }
 
-//void Player::InteractWithEntityLootable(EntityLootable* entityLootable) {
-//
-//	entityLootable->AcceptCharacter(this);
-//}
-
 void Player::HealYourself() {
 
 	//this->inventory.UsePotion();
@@ -38,5 +33,5 @@ void Player::Die() {
 
 void Player::Draw() {
 
-	std::cout << 'P' << std::endl;
+	std::cout << 'P';
 }

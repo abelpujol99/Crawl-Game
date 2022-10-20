@@ -17,5 +17,5 @@ void Enemy::Die() {
 
 void Enemy::Draw() {
 
-	std::cout << 'E' << std::endl;
+	std::cout << 'E';
 }
