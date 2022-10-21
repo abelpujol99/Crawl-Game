@@ -7,6 +7,6 @@ int main() {
 		gameManager.Loop();
 	//}
 
-		//s
-		//a
+	
+		
 }
