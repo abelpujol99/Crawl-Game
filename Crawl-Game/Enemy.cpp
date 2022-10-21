@@ -33,11 +33,6 @@ void Enemy::ResetMoveTimer() {
 	_targetTime = clock() + (rand() % (MAX_MOVE_TIME - MIN_MOVE_TIME)) + MIN_MOVE_TIME;
 }
 
-Enemy::~Enemy() {
-
-	delete _movement;
-}
-
 void Enemy::Move() {
 	std::cout << "Enemy moved" << std::endl;
 	ResetMoveTimer();
@@ -56,8 +51,4 @@ Coordinates Enemy::GetCoordinates() {
 void Enemy::Draw() {
 
 	std::cout << 'E';
-}
-
-Coordinates Enemy::GetCoordinates() {
-	return Character::GetCoordinates();
 }

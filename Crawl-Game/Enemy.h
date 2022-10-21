@@ -26,5 +26,4 @@ public:
 	void Move() override;
 	Coordinates GetCoordinates();
 	void Draw() override;
-	Coordinates GetCoordinates();
 };
