@@ -2,29 +2,35 @@
 
 Enemy::Enemy(Coordinates coordinates) : Character(coordinates), EntityLootable() {
 
-	targetTime = 0;
-
+	_targetTime = 0;
 	Character::_mapElementType = ENEMY;
+
+	_enemyMutex = new std::mutex();
 	_enemyThread = new std::thread(&Enemy::EnemyManager, this);
 	_enemyThread->detach();
 }
 
 Enemy::~Enemy()
 {
+	_enemyMutex->lock();
 	delete _enemyThread;
+	_enemyMutex->unlock();
+	delete _enemyMutex;
 }
 
 void Enemy::EnemyManager() {
 	ResetMoveTimer();
 	while (this->_health > 0) {
-		if (clock() >= targetTime) {
+		_enemyMutex->lock();
+		if (clock() >= _targetTime) {
 			Move();
 		}
+		_enemyMutex->unlock();
 	}
 }
 
 void Enemy::ResetMoveTimer() {
-	targetTime = clock() + (rand() % (MAX_MOVE_TIME - MIN_MOVE_TIME)) + MIN_MOVE_TIME;
+	_targetTime = clock() + (rand() % (MAX_MOVE_TIME - MIN_MOVE_TIME)) + MIN_MOVE_TIME;
 }
 
 void Enemy::Move() {

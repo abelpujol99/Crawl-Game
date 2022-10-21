@@ -35,14 +35,10 @@ GameManager::~GameManager()
 	delete _enemySpawn;
 	delete _gameUI;
 
-
-	EntityLootable* el = _entityLootables[0];
-	delete el;
-	int i = 0;
-	/*for (auto entityLootable : _entityLootables) {
+	for (auto entityLootable : _entityLootables) {
 		delete entityLootable;
 	}
-	_entityLootables.clear();*/
+	_entityLootables.clear();
 }
 
 void GameManager::Loop()

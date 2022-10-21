@@ -19,7 +19,7 @@ public:
 
 	Character();
 	Character(Coordinates coordinates);
-	~Character();
+	virtual ~Character();
 	virtual void Move() = 0;
 	void IsAlive();
 	virtual void Die() = 0;
