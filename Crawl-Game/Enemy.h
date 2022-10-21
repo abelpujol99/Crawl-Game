@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <thread>
+#include <mutex>
 #include "Character.h"
 #include "EntityLootable.h"
 
@@ -12,7 +13,8 @@ class Enemy : public Character, public EntityLootable {
 private:
 
 	std::thread* _enemyThread;
-	clock_t targetTime;
+	std::mutex* _enemyMutex;
+	clock_t _targetTime;
 
 public:
 
