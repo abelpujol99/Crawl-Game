@@ -21,6 +21,9 @@ EntityLootable::EntityLootable() {
 	}
 }
 
+EntityLootable::~EntityLootable() {
+}
+
 void EntityLootable::Drop() {
 
 	this->_drop->SetCoordinates(this->GetCoordinates());

@@ -19,6 +19,7 @@ public:
 
 	Character();
 	Character(Coordinates coordinates);
+	virtual ~Character();
 	virtual void Move() = 0;
 	bool IsAlive();
 	void ModifyHealthValueOnTakeDamageOrHeal(int modifyValue);

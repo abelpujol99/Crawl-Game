@@ -13,6 +13,9 @@ Character::Character(Coordinates coordinates) {
 	this->_health = 5;
 }
 
+Character::~Character() {
+}
+
 void Character::ModifyHealthValueOnTakeDamageOrHeal(int modifyValue) {
 
 	this->_health += modifyValue;
