@@ -2,7 +2,7 @@
 #include <iostream>
 #include "Character.h"
 //#include "InventoryWeapon.h"
-
+#include "json/json.h"
 class InventoryWeapon;
 
 class Player : public Character {
@@ -20,4 +20,8 @@ public:
 	//Inventory GetInventory();
 	//void ChangeCurrentWeapon(InventoryWeapon weaponOfInventory);
 	void Draw() override;
+	//void AcceptCharacter();
+
+	static Player* Parse(Json::Value jsonValue);
+	Json::Value ToJsonValue();
 };

@@ -1,6 +1,7 @@
 #pragma once
 #include <thread>
 #include "Input.h"
+#include "AutosaveTimer.h"
 #include "EnemySpawn.h"
 
 class ThreadManager
@@ -13,6 +14,7 @@ public:
 	ThreadManager();
 	~ThreadManager();
 	void StartInputThread(Input* input);
+	void StartAutoSaveThread(AutosaveTimer* autosave);
 	void StartSpawnThread(EnemySpawn* enemySpawn);
 };
 

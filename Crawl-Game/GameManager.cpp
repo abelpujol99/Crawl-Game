@@ -46,40 +46,45 @@ GameManager::~GameManager()
 
 void GameManager::Loop()
 {
-	char lastChar = input->LastInput();
+	/*char lastChar = input->LastInput();
 	if (lastChar != 0) {
 		//exit = lastChar == KB_ESCAPE;
 		cout << lastChar << endl;
-	}
+	}*/
 	while (_player->IsAlive())
 	{		
 		DrawMapElements();
 
-		char input;
-		cin >> input;
+		//char input;
+		//cin >> input;
+
+		int lastChar = input->LastInput();
 
 		MapElement* auxMapElement;
 
-		if (input == 'd')
+		if (lastChar == KB_D)
 		{
 			_player->SetTargetCoordinatesToMove(Coordinates(_player->GetCoordinates().x + 1, _player->GetCoordinates().y));
 		}
-		else if (input == 'a')
+		else if (lastChar == KB_A)
 		{
 			_player->SetTargetCoordinatesToMove(Coordinates(_player->GetCoordinates().x - 1, _player->GetCoordinates().y));
 		}
-		else if (input == 'w')
+		else if (lastChar == KB_W)
 		{
 			_player->SetTargetCoordinatesToMove(Coordinates(_player->GetCoordinates().x, _player->GetCoordinates().y - 1));
 		}
-		else if (input == 's')
+		else if (lastChar == KB_S)
 		{
 			_player->SetTargetCoordinatesToMove(Coordinates(_player->GetCoordinates().x, _player->GetCoordinates().y + 1));
 		}
-		else if(input == 'e')
+		else if(lastChar == KB_E)
 		{
 			_player->HealYourself();
 		}
+
+		
+
 
 		auxMapElement = _currentMap->CheckCollision(_player->GetTargetCoordinatesToMove());
 		ActionDependOnMapElementType(auxMapElement);
@@ -95,7 +100,7 @@ void GameManager::ActionDependOnMapElementType(MapElement* mapElement) {
 		if (/*_player->GetCurrentWeapon().GetRange() == 2*/false)
 		{
 			Coordinates weaponTargetCoordinates = GetWeaponTargetCoordinates(_player);
-			MapElement* weaponTargetElement = _maps[_currentWorldMapCoordinates.x][_currentWorldMapCoordinates.y]->CheckCollision(weaponTargetCoordinates);
+			MapElement* weaponTargetElement = _currentMap->CheckCollision(weaponTargetCoordinates);
 			if (weaponTargetElement->GetMapElementType() == ENEMY || weaponTargetElement->GetMapElementType() == CHEST)
 			{
 				ActionDependOnMapElementType(weaponTargetElement);
@@ -105,8 +110,7 @@ void GameManager::ActionDependOnMapElementType(MapElement* mapElement) {
 		{
 			_currentMap->MoveCharacter(_player);
 			mapElement->~MapElement();
-		}
-			
+		}			
 		break;
 
 	case ENEMY:
@@ -115,28 +119,32 @@ void GameManager::ActionDependOnMapElementType(MapElement* mapElement) {
 			enemy->ModifyHealthValueOnTakeDamageOrHeal(-1);
 		}
 		break;
+
 	case CHEST:
 		{
 			Chest* chest = dynamic_cast<Chest*>(mapElement);
 			chest->Drop();
 		}
-
 		break;
+
 	case POTION:
 		{
 			Potion* potion = dynamic_cast<Potion*>(mapElement);
 			//_player->GetInventory()->AddPotion(potion);
 		}	
 		break;
+
 	case COIN:
 		{
 			Coin* coin = dynamic_cast<Coin*>(mapElement);
 			//_player->GetInventory()->AddCoin(coin);
 		}
 		break;
+
 	case WEAPON:
 		//_player->GetInventory()->AddWeapon(InventoryWeapon());
 		break;
+
 	case PORTAL:
 
 		for (int i = 0; i < _portals.size(); i++)
