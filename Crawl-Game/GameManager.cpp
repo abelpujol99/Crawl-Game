@@ -95,7 +95,7 @@ void GameManager::ActionDependOnMapElementType(MapElement* mapElement) {
 		if (/*_player->GetCurrentWeapon().GetRange() == 2*/false)
 		{
 			Coordinates weaponTargetCoordinates = GetWeaponTargetCoordinates(_player);
-			MapElement* weaponTargetElement = _maps[_currentWorldMapCoordinates.x][_currentWorldMapCoordinates.y]->CheckCollision(weaponTargetCoordinates);
+			MapElement* weaponTargetElement = _currentMap->CheckCollision(weaponTargetCoordinates);
 			if (weaponTargetElement->GetMapElementType() == ENEMY || weaponTargetElement->GetMapElementType() == CHEST)
 			{
 				ActionDependOnMapElementType(weaponTargetElement);
@@ -105,8 +105,7 @@ void GameManager::ActionDependOnMapElementType(MapElement* mapElement) {
 		{
 			_currentMap->MoveCharacter(_player);
 			mapElement->~MapElement();
-		}
-			
+		}			
 		break;
 
 	case ENEMY:
@@ -115,28 +114,32 @@ void GameManager::ActionDependOnMapElementType(MapElement* mapElement) {
 			enemy->ModifyHealthValueOnTakeDamageOrHeal(-1);
 		}
 		break;
+
 	case CHEST:
 		{
 			Chest* chest = dynamic_cast<Chest*>(mapElement);
 			chest->Drop();
 		}
-
 		break;
+
 	case POTION:
 		{
 			Potion* potion = dynamic_cast<Potion*>(mapElement);
 			//_player->GetInventory()->AddPotion(potion);
 		}	
 		break;
+
 	case COIN:
 		{
 			Coin* coin = dynamic_cast<Coin*>(mapElement);
 			//_player->GetInventory()->AddCoin(coin);
 		}
 		break;
+
 	case WEAPON:
 		//_player->GetInventory()->AddWeapon(InventoryWeapon());
 		break;
+
 	case PORTAL:
 
 		for (int i = 0; i < _portals.size(); i++)
