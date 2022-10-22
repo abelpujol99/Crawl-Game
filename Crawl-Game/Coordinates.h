@@ -1,4 +1,5 @@
 #pragma once
+#include "json/json.h"
 #include <utility>
 struct Coordinates {
 
@@ -13,4 +14,6 @@ public:
 	void MultiplyCoordinateY(int numberToMultiply);
 	bool CompareXCoordinate(int coordinateYToCompare);
 	bool CompareYCoordinate(int coordinateXToCompare);
+	static Coordinates* Parse(Json::Value jsonValue);
+	Json::Value ToJsonValue();
 };

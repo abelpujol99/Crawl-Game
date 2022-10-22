@@ -1,6 +1,4 @@
 #include "EnemySpawn.h"
-#include <ctime>
-#include <iostream>
 
 EnemySpawn::EnemySpawn() {
 	targetTime = 0;

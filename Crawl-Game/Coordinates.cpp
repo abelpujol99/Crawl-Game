@@ -33,3 +33,26 @@ bool Coordinates::CompareYCoordinate(int coordinateXToCompare) {
 
 	return this->y == coordinateXToCompare;
 }
+Coordinates* Coordinates::Parse(Json::Value jsonValue)
+{
+    Coordinates* newCoordinates = new Coordinates();
+    try
+    {
+        newCoordinates->y = jsonValue["PosY"].asInt();
+        newCoordinates->x = jsonValue["PosX"].asInt();
+        return newCoordinates;
+    }
+    catch (const std::exception&)
+    {
+        delete newCoordinates;
+        return nullptr;
+    }
+}
+Json::Value Coordinates::ToJsonValue()
+{
+    Json::Value jsonValue;
+    jsonValue["PosX"] = x;
+    jsonValue["PosY"] = y;
+
+    return jsonValue;
+}
