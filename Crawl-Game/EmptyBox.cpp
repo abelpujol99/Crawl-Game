@@ -7,6 +7,7 @@ EmptyBox::EmptyBox(Coordinates coordinates) {
 }
 
 void EmptyBox::Draw() {
-
+	
+	ConsoleControl::SetPosition(this->GetCoordinates().x, this->GetCoordinates().y);
 	std::cout << ' ';
 }

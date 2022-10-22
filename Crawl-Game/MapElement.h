@@ -1,5 +1,6 @@
 #pragma once
 #include "Coordinates.h"
+#include "ConsoleControl.h"
 
 struct Coordinates;
 

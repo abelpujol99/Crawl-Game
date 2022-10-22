@@ -104,7 +104,7 @@ std::vector<Portal*> Map::GetPortals() {
 
 void Map::MoveCharacter(Character* character) {
 
-	SetEmptyBox(character->GetCoordinates());
+	SetEmptyBox(character->GetLastCoordinates());
 	character->SetCoordinates(character->GetTargetCoordinatesToMove());
 
 	MapElement** mapElementPtr = SelectMapElementPointer(character->GetCoordinates());
@@ -115,6 +115,7 @@ void Map::SetEmptyBox(Coordinates coordinates) {
 
 	MapElement** mapElemenPtrPtr = SelectMapElementPointer(coordinates);
 	*mapElemenPtrPtr = new EmptyBox(Coordinates(coordinates.x, coordinates.y));
+	mapElemenPtrPtr[0]->Draw();
 }
 
 void Map::SetMapElement(MapElement* mapElement) {

@@ -50,5 +50,6 @@ Coordinates Enemy::GetCoordinates() {
 
 void Enemy::Draw() {
 
+	ConsoleControl::SetPosition(this->GetCoordinates().x, this->GetCoordinates().y);
 	std::cout << 'E';
 }
