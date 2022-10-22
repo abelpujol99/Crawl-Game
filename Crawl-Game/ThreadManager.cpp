@@ -20,6 +20,11 @@ void ThreadManager::StartInputThread(Input* input)
 	_inputListenerThread->detach();
 }
 
+void ThreadManager::StartAutoSaveThread(AutosaveTimer* autosave) {
+	_autoSaveThread = new thread(&AutosaveTimer::Run, autosave);
+	_autoSaveThread->detach();
+}
+
 void ThreadManager::StartSpawnThread(EnemySpawn* enemySpawn)
 {
 	_enemySpawnThread = new thread(&EnemySpawn::Run, enemySpawn);
