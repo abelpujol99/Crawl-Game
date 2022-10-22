@@ -3,15 +3,14 @@
 #include <ctime>
 #include <iostream>
 
-#define MAX_SPAWN_TIME 15000
-#define MIN_SPAWN_TIME 10000
-
-class EnemySpawn {
+class Timer {
 private:
+	int maxTime, minTime;
 	clock_t targetTime;
 	void RestartTimer();
 public:
-	EnemySpawn();
+	Timer(int minxTime, int maxTime);
+	Timer(int time);
 	void Run();
-	bool CheckSpawn();
+	bool CheckTime();
 };

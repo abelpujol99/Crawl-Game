@@ -21,7 +21,8 @@ int Input::LastInput() {
 		inputsReadMutex->lock();
 
 		int lastInput = *(inputsRead->end() - 1);
-		inputsRead->pop_back();
+		//inputsRead->pop_back();
+		inputsRead->clear();
 
 		inputsReadMutex->unlock();
 

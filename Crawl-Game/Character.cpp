@@ -1,5 +1,4 @@
 #include "Character.h"
-//#include "Weapon.h"
 
 Character::Character() {
 
@@ -9,7 +8,7 @@ Character::Character() {
 Character::Character(Coordinates coordinates, Coordinates worldMapCoordinates) : MapElement(worldMapCoordinates) {
 	
 	this->_currentCoordinates = coordinates;
-	//this->_currentWeapon = InventoryWeapon("Sword", 1);
+	this->_currentWeapon = InventoryWeapon("Sword", 1);
 	this->_health = 5;
 }
 
@@ -26,6 +25,11 @@ void Character::ModifyHealthValueOnTakeDamageOrHeal(int modifyValue) {
 	this->_health += modifyValue;
 }
 
+int Character::GetHealth()
+{
+	return _health;
+}
+
 void Character::SetTargetCoordinatesToMove(Coordinates coordinates) {
 
 	this->_targetCoordinatesToMove = coordinates;
@@ -36,10 +40,10 @@ void Character::SetLastCoordinates(Coordinates coordinates) {
 	this->_lastCoordinates = coordinates;
 }
 
-/*InventoryWeapon Character::GetCurrentWeapon() {
+InventoryWeapon Character::GetCurrentWeapon() {
 
 	return _currentWeapon;
-}*/
+}
 
 Coordinates Character::GetTargetCoordinatesToMove() {
 

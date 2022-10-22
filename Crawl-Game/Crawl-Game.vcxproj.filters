@@ -75,7 +75,7 @@
     <ClInclude Include="EmptyBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="EnemySpawn.h">
+    <ClInclude Include="Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EnemyPlacer.h">
@@ -87,13 +87,16 @@
     <ClInclude Include="dist\json\json-forwards.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AutosaveTimer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="JsonSaver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="JsonLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Inventory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InventoryWeapon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -155,7 +158,7 @@
     <ClCompile Include="EmptyBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EnemySpawn.cpp">
+    <ClCompile Include="Timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EnemyPlacer.cpp">
@@ -167,15 +170,19 @@
     <ClCompile Include="Coordinates.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AutosaveTimer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="JsonSaver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="JsonLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="InventoryWeapon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Inventory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InputTimer.cpp">
     <ClCompile Include="DropLootable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

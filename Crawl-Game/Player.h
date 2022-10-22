@@ -1,15 +1,14 @@
 #pragma once
 #include <iostream>
 #include "Character.h"
-//#include "InventoryWeapon.h"
+#include "Inventory.h"
 #include "json/json.h"
-class InventoryWeapon;
 
 class Player : public Character {
 
 private: 
 
-	//Inventory _inventory;
+	Inventory _inventory;
 
 public:
 
@@ -17,12 +16,12 @@ public:
 	Player(Coordinates coodinates, Coordinates worldMapCoordinates);
 	void Move(int lastCommand) override;
 	void HealYourself();
-	//Inventory GetInventory();
-	//void ChangeCurrentWeapon(InventoryWeapon weaponOfInventory);
+	void ModifyHealthValueOnTakeDamageOrHeal(int modifyValue);
+	Inventory GetInventory();
+	void ChangeCurrentWeapon(InventoryWeapon weaponOfInventory);
 	void SetWorldMapCoordinates(Coordinates coordinates);
 	Coordinates GetWorldMapCoordinates();
 	void Draw() override;
-	//void AcceptCharacter();
 
 	static Player* Parse(Json::Value jsonValue);
 	Json::Value ToJsonValue();

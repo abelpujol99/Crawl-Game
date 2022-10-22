@@ -4,8 +4,9 @@ GameManager::GameManager()
 {
 	_threadManager = new ThreadManager();
 	_input = new Input();
-	_autosaveTimer = new AutosaveTimer();
-	_spawnTimer = new EnemySpawn();
+	_inputTimer = new Timer(INPUT_TIME);
+	_autosaveTimer = new Timer(AUTOSAVE_TIME);
+	_spawnTimer = new Timer(MAX_SPAWN_TIME,MIN_SPAWN_TIME);
 	_gameUI = new GameUI();
 	_enemyPlacer = new EnemyPlacer();
 	
@@ -39,22 +40,24 @@ GameManager::~GameManager()
 void GameManager::Loop()
 {
 	while (_player->IsAlive())
-	{		
-		MapElement* auxMapElement;
-		int lastCommand = _input->LastInput();
-		
-		_player->Move(lastCommand);
+	{	
+		if (_inputTimer->CheckTime()) {
+			MapElement* auxMapElement;
+			int lastCommand = _input->LastInput();
 
-		if(lastCommand == KB_E)
-		{
-			_player->HealYourself();
+			_player->Move(lastCommand);
+
+			if (lastCommand == KB_E)
+			{
+				_player->HealYourself();
+			}
+
+			auxMapElement = _currentMap->CheckCollision(_player->GetTargetCoordinatesToMove());
+			ActionDependOnMapElementType(auxMapElement);
 		}
 
-		auxMapElement = _currentMap->CheckCollision(_player->GetTargetCoordinatesToMove());
-		ActionDependOnMapElementType(auxMapElement);
-
-		if (_spawnTimer->CheckSpawn()) {
-			int random = int(rand() % 10);
+		if (_spawnTimer->CheckTime()) {
+			int random = int(rand() % 100);
 			if (random < 70) {
 			 	Character* enemy = _enemyPlacer->PlaceEnemy(_currentMap);
 				_currentMap->SetMapElement(enemy);
@@ -64,9 +67,11 @@ void GameManager::Loop()
 			}
 		}
 
-		if (_autosaveTimer->CheckSave()) {
+		if (_autosaveTimer->CheckTime()) {
 			_jsonSaver->SaveToJson(_player->ToJsonValue(), "Saves/Player.json");
 		}
+
+		_gameUI->Draw(_player, WORLD_MAP_WIDTH);
 	}
 }
 
@@ -76,7 +81,7 @@ void GameManager::ActionDependOnMapElementType(MapElement* mapElement) {
 	{
 	case NONE:
 	
-		if (/*_player->GetCurrentWeapon().GetRange() == 2*/false)
+		if (_player->GetCurrentWeapon().GetRange() == 2)
 		{
 			Coordinates weaponTargetCoordinates = GetWeaponTargetCoordinates(_player);
 			MapElement* weaponTargetElement = _currentMap->CheckCollision(weaponTargetCoordinates);
@@ -110,19 +115,19 @@ void GameManager::ActionDependOnMapElementType(MapElement* mapElement) {
 	case POTION:
 		{
 			Potion* potion = dynamic_cast<Potion*>(mapElement);
-			//_player->GetInventory()->AddPotion(potion);
+			_player->GetInventory().AddPotion(*potion);
 		}	
 		break;
 
 	case COIN:
 		{
 			Coin* coin = dynamic_cast<Coin*>(mapElement);
-			//_player->GetInventory()->AddCoin(coin);
+			_player->GetInventory().ModifyCoins(coin->GetPoints());
 		}
 		break;
 
 	case WEAPON:
-		//_player->GetInventory()->AddWeapon(InventoryWeapon());
+		//_player->GetInventory().AddWeaponToInventory(mapElement);
 		break;
 
 	case PORTAL:
@@ -150,11 +155,11 @@ Coordinates GameManager::GetWeaponTargetCoordinates(Character* character) {
 	Coordinates weaponTargetCoordinates = character->GetCoordinates().SubtractCoordinates(character->GetTargetCoordinatesToMove());
 	if (weaponTargetCoordinates.y == 0)
 	{
-		//weaponTargetCoordinates.MultiplyCoordinateX(character->GetCurrentWeapon().GetRange());
+		weaponTargetCoordinates.MultiplyCoordinateX(character->GetCurrentWeapon().GetRange());
 	}
 	else
 	{
-		//weaponTargetCoordinates.MultiplyCoordinateY(character->GetCurrentWeapon().GetRange());
+		weaponTargetCoordinates.MultiplyCoordinateY(character->GetCurrentWeapon().GetRange());
 	}
 	return weaponTargetCoordinates;
 }
@@ -183,9 +188,10 @@ void GameManager::SetPlayerCoordinates(Coordinates portalCoordinates) {
 
 void GameManager::Setup()
 {
-	_threadManager->StartInputThread(_input);
-	_threadManager->StartAutoSaveThread(_autosaveTimer);
-	_threadManager->StartSpawnThread(_spawnTimer);
+	_threadManager->StartInputListenerThread(_input);
+	_threadManager->StartTimer(_autosaveTimer);
+	_threadManager->StartTimer(_inputTimer);
+	_threadManager->StartTimer(_spawnTimer);
 }
 
 bool GameManager::CheckExit()
