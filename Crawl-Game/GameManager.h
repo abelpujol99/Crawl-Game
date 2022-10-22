@@ -3,6 +3,7 @@
 #include <vector>
 #include <math.h>
 #include "Coordinates.h"
+#include "Character.h"
 
 class MapElement;
 class ConsoleControl;
@@ -31,14 +32,18 @@ private:
 	Input* input;
 	GameUI* gameUI;	
 	std::vector<std::vector<Map*>> _maps;
-	std::vector<std::vector<MapElement*>*>* _currentMap;
+	Map* _currentMap;
+	std::vector<std::vector<MapElement*>*>* _currentMapElements;
 	Player* _player;
 	std::vector<Portal*> _portals;
 	Coordinates _currentWorldMapCoordinates;
 
+	//void CreatePortals();
 	void SetMapElementInCurrentMap(MapElement* mapElement);
 	void SetCurrentMap(Coordinates nextMapCoordinates);
 	void ActionDependOnMapElementType(MapElement* mapElement);
+	Coordinates GetWeaponTargetCoordinates(Character* character);
+	void SetPlayerCoordinates(Coordinates portalCoordinates);
 	void DrawMapElements();
 
 public:

@@ -154,6 +154,7 @@
     <ClCompile Include="Chest.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="ConsoleControl.cpp" />
+    <ClCompile Include="Coordinates.cpp" />
     <ClCompile Include="EmptyBox.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Character.cpp" />

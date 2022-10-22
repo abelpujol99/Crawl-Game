@@ -11,7 +11,7 @@ class Character : public MapElement
 
 protected:
 
-	//Weapon _currentWeapon;
+	//InventoryWeapon _currentWeapon;
 	int _health;
 	Coordinates _targetCoordinatesToMove;
 
@@ -24,6 +24,7 @@ public:
 	bool IsAlive();
 	void ModifyHealthValueOnTakeDamageOrHeal(int modifyValue);
 	void SetTargetCoordinatesToMove(Coordinates coordinates);
+	//InventoryWeapon GetCurrentWeapon();
 	Coordinates GetTargetCoordinatesToMove();
 };
 

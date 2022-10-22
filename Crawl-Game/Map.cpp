@@ -76,7 +76,7 @@ void Map::CreateBlocksOrPortals(Coordinates coordinates, std::vector<bool> cardi
 	auxMapElements->at(coordinates.x) = new Block(Coordinates(coordinates.x, coordinates.y));
 }
 
-MapElement** Map::SelectMapElement(Coordinates coordinates) {
+MapElement** Map::SelectMapElementPointer(Coordinates coordinates) {
 
 	std::vector<MapElement*>* elementToInsertCoordinates = this->_mapPtr->at(coordinates.y);
 	return &elementToInsertCoordinates->at(coordinates.x);
@@ -84,7 +84,7 @@ MapElement** Map::SelectMapElement(Coordinates coordinates) {
 
 MapElement* Map::CheckCollision(Coordinates coordinates) {
 
-	return *SelectMapElement(coordinates);
+	return *SelectMapElementPointer(coordinates);
 }
 
 //void Map::Draw(MapElement* mapElements) {
@@ -107,19 +107,19 @@ void Map::MoveCharacter(Character* character) {
 	SetEmptyBox(character->GetCoordinates());
 	character->SetCoordinates(character->GetTargetCoordinatesToMove());
 
-	MapElement** mapElementPtr = SelectMapElement(character->GetCoordinates());
+	MapElement** mapElementPtr = SelectMapElementPointer(character->GetCoordinates());
 	*mapElementPtr = character;
 }
 
 void Map::SetEmptyBox(Coordinates coordinates) {
 
-	MapElement** mapElemenPtrPtr = SelectMapElement(coordinates);
+	MapElement** mapElemenPtrPtr = SelectMapElementPointer(coordinates);
 	*mapElemenPtrPtr = new EmptyBox(Coordinates(coordinates.x, coordinates.y));
 }
 
 void Map::SetMapElement(MapElement* mapElement) {
 
-	MapElement** mapElementPtrPtr = SelectMapElement(mapElement->GetCoordinates());
+	MapElement** mapElementPtrPtr = SelectMapElementPointer(mapElement->GetCoordinates());
 	*mapElementPtrPtr = mapElement;
 }
 
@@ -129,7 +129,7 @@ void Map::Draw() {
 	{
 		for (int j = 0; j < _mapPtr->at(i)->size(); j++)
 		{
-			MapElement** mapElementPtrPtr = SelectMapElement(Coordinates(i, j));
+			MapElement** mapElementPtrPtr = SelectMapElementPointer(Coordinates(j, i));
 			if (*mapElementPtrPtr != nullptr)
 			{
 				mapElementPtrPtr[0]->Draw();
