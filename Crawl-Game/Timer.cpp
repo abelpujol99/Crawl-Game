@@ -1,6 +1,6 @@
 #include "Timer.h"
 
-Timer::Timer(int maxTime, int minTime)
+Timer::Timer(int minTime, int maxTime)
 {
 	this->maxTime = maxTime;
 	this->minTime = minTime;

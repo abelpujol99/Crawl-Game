@@ -9,7 +9,7 @@ private:
 	clock_t targetTime;
 	void RestartTimer();
 public:
-	Timer(int maxTime, int minTime);
+	Timer(int minxTime, int maxTime);
 	Timer(int time);
 	void Run();
 	bool CheckTime();
