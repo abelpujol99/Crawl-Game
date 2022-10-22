@@ -1,28 +1,17 @@
 #pragma once
+#include "json/json.h"
 struct Coordinates {
 
 public:
 	int x;
 	int y;
 
-	Coordinates() {
-		this-> x = 0;
-		this-> y = 0;
-	}
+	Coordinates();
+	Coordinates(int x, int y);
 
-	Coordinates(int x, int y) {
-		
-		this->x = x;
-		this->y = y;
-	}
+	bool CompareXCoordinate(int coordinateXToCompare);
+	bool CompareYCoordinate(int coordinateYToCompare);
 
-	bool CompareXCoordinate(int coordinateYToCompare) {
-	
-		return this->x == coordinateYToCompare;
-	}
-
-	bool CompareYCoordinate(int coordinateXToCompare) {
-	
-		return this->y == coordinateXToCompare;
-	}
+	static Coordinates* Parse(Json::Value jsonValue);
+	Json::Value ToJsonValue();
 };
