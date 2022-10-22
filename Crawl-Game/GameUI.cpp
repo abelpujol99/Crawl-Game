@@ -10,11 +10,14 @@ void GameUI::Draw(Player* player, int _posX)
 	int posY = GUI_POSITION_Y;
 
 	ConsoleControl::SetPosition(posX, posY);
-	cout << "Coins: " << player->GetInventory().GetCoins();
+	cout << "Coins: " << player->GetInventory().GetCoins() << "       ";
+	
 	ConsoleControl::SetPosition(posX, posY + 1);
-	cout << "Health: " << player->GetHealth();
+	cout << "Health: " << player->GetHealth() << "       ";
+	;
 	ConsoleControl::SetPosition(posX, posY + 2);
-	cout << "Potions: " << player->GetInventory().GetPotionAmount();
+	cout << "Potions: " << player->GetInventory().GetPotionAmount() << "       ";
+
 	ConsoleControl::SetPosition(posX, posY + 3);
-	cout << "Weapon: " << player->GetCurrentWeapon().GetName();
+	cout << "Weapon: " << player->GetCurrentWeapon().GetName() << "       ";
 }

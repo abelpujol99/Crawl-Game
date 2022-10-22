@@ -45,13 +45,17 @@ Coordinates Player::GetWorldMapCoordinates() {
 }
 
 void Player::HealYourself() {
-
-	this->_inventory.UsePotion();
+	if (this->_inventory.GetPotionAmount() > 0) {
+		ModifyHealthValueOnTakeDamageOrHeal(this->_inventory.UsePotion());
+	}
 }
 
 void Player::ModifyHealthValueOnTakeDamageOrHeal(int modifyValue) {
 
     this->_health += modifyValue;
+	if (_health > MAX_HP) {
+		_health = MAX_HP;
+	}
 }
 
 Inventory Player::GetInventory() {
@@ -77,8 +81,14 @@ Player* Player::Parse(Json::Value jsonValue)
     try
     {
         newPlayer->_currentCoordinates = *Coordinates::Parse(jsonValue);
-        //TODO: current map
+		newPlayer->_currentWorldMapCoordinates.x = jsonValue["GlobalPosX"].asInt();
+		newPlayer->_currentWorldMapCoordinates.y = jsonValue["GlobalPosY"].asInt();
         newPlayer->_health = jsonValue["Health"].asInt();
+		newPlayer->_inventory.ModifyCoins(jsonValue["Coins"].asInt());
+		int potionAmount = jsonValue["Potions"].asInt();
+		for (int i = 0; i < potionAmount; i++) {
+			newPlayer->_inventory.AddPotion(Potion());
+		}
         return newPlayer;
     }
     catch (const std::exception&)
@@ -91,8 +101,11 @@ Player* Player::Parse(Json::Value jsonValue)
 Json::Value Player::ToJsonValue()
 {
     Json::Value jsonValue = _currentCoordinates.ToJsonValue();
-    //TODO: current map
+	jsonValue["GlobalPosX"] = _currentWorldMapCoordinates.x;
+	jsonValue["GlobalPosY"] = _currentWorldMapCoordinates.y;
     jsonValue["Health"] = _health;
+    jsonValue["Coins"] = _inventory.GetCoins();
+    jsonValue["Potions"] = _inventory.GetPotionAmount();
 
     return jsonValue;
 }

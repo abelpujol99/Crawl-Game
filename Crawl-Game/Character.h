@@ -3,6 +3,8 @@
 #include "EntityLootable.h"
 #include "InventoryWeapon.h"
 
+#define MAX_HP 5
+
 class MapElement;
 
 class Character : public MapElement
