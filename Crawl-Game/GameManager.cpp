@@ -40,19 +40,21 @@ GameManager::~GameManager()
 void GameManager::Loop()
 {
 	while (_player->IsAlive())
-	{		
-		MapElement* auxMapElement;
-		int lastCommand = _input->LastInput();
-		
-		_player->Move(lastCommand);
+	{	
+		if (_inputTimer->CheckTime()) {
+			MapElement* auxMapElement;
+			int lastCommand = _input->LastInput();
 
-		if(lastCommand == KB_E)
-		{
-			_player->HealYourself();
+			_player->Move(lastCommand);
+
+			if (lastCommand == KB_E)
+			{
+				_player->HealYourself();
+			}
+
+			auxMapElement = _currentMap->CheckCollision(_player->GetTargetCoordinatesToMove());
+			ActionDependOnMapElementType(auxMapElement);
 		}
-
-		auxMapElement = _currentMap->CheckCollision(_player->GetTargetCoordinatesToMove());
-		ActionDependOnMapElementType(auxMapElement);
 
 		if (_spawnTimer->CheckTime()) {
 			int random = int(rand() % 100);
@@ -68,6 +70,8 @@ void GameManager::Loop()
 		if (_autosaveTimer->CheckTime()) {
 			_jsonSaver->SaveToJson(_player->ToJsonValue(), "Saves/Player.json");
 		}
+
+		_gameUI->Draw(_player, WORLD_MAP_WIDTH);
 	}
 }
 
@@ -77,7 +81,7 @@ void GameManager::ActionDependOnMapElementType(MapElement* mapElement) {
 	{
 	case NONE:
 	
-		if (/*_player->GetCurrentWeapon().GetRange() == 2*/false)
+		if (_player->GetCurrentWeapon().GetRange() == 2)
 		{
 			Coordinates weaponTargetCoordinates = GetWeaponTargetCoordinates(_player);
 			MapElement* weaponTargetElement = _currentMap->CheckCollision(weaponTargetCoordinates);
@@ -111,19 +115,19 @@ void GameManager::ActionDependOnMapElementType(MapElement* mapElement) {
 	case POTION:
 		{
 			Potion* potion = dynamic_cast<Potion*>(mapElement);
-			//_player->GetInventory()->AddPotion(potion);
+			_player->GetInventory().AddPotion(*potion);
 		}	
 		break;
 
 	case COIN:
 		{
 			Coin* coin = dynamic_cast<Coin*>(mapElement);
-			//_player->GetInventory()->AddCoin(coin);
+			_player->GetInventory().ModifyCoins(coin->GetPoints());
 		}
 		break;
 
 	case WEAPON:
-		//_player->GetInventory()->AddWeapon(InventoryWeapon());
+		//_player->GetInventory().AddWeaponToInventory(mapElement);
 		break;
 
 	case PORTAL:
@@ -151,11 +155,11 @@ Coordinates GameManager::GetWeaponTargetCoordinates(Character* character) {
 	Coordinates weaponTargetCoordinates = character->GetCoordinates().SubtractCoordinates(character->GetTargetCoordinatesToMove());
 	if (weaponTargetCoordinates.y == 0)
 	{
-		//weaponTargetCoordinates.MultiplyCoordinateX(character->GetCurrentWeapon().GetRange());
+		weaponTargetCoordinates.MultiplyCoordinateX(character->GetCurrentWeapon().GetRange());
 	}
 	else
 	{
-		//weaponTargetCoordinates.MultiplyCoordinateY(character->GetCurrentWeapon().GetRange());
+		weaponTargetCoordinates.MultiplyCoordinateY(character->GetCurrentWeapon().GetRange());
 	}
 	return weaponTargetCoordinates;
 }

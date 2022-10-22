@@ -21,6 +21,7 @@
 #include "JsonSaver.h"
 #include "JsonLoader.h"
 #include "Timer.h"
+#include "EnemyPlacer.h"
 
 #define WORLD_MAP_WIDTH 3
 #define WORLD_MAP_HEIGHT 3
