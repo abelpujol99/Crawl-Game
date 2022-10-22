@@ -2,29 +2,29 @@
 #include "InventoryWeapon.h" 
 #include "Potion.h"
 #include "Weapon.h"
-#include <string>
+
+#include <vector>
 #include <utility>
 
 class Inventory
 {
 private:
 	std::pair<InventoryWeapon,InventoryWeapon> _weaponsInInventory;
-	Potion _potion;
+	std::vector<Potion> _potion;
 	int _coins;
 	int _Inventorycounter;
 	
 	InventoryWeapon ChangeWeapon(InventoryWeapon holding);
 
 public:
-	Inventory(): InventoryWeapon(std::string name, int damage, int range);
+	Inventory();   
 
 	std::pair<InventoryWeapon,InventoryWeapon> GetWeapons();
 
 	void AddWeaponToInventory(InventoryWeapon weapon);
 
-	int GetPotions();
-	void ModifyPotions(int change);
-	int UsePotion(int heal);
+	int UsePotions();
+	void AddPotion(Potion potion);
 
 	int GetCoins();
 	void ModifyCoins(int change);
