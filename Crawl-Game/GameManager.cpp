@@ -21,7 +21,7 @@ GameManager::GameManager()
 
 	SetCurrentMap(Coordinates(floor(WORLD_MAP_HEIGHT / 2), floor(WORLD_MAP_WIDTH / 2)));
 	_player = new Player((Coordinates(floor(MAP_HEIGHT / 2), floor(MAP_WIDTH / 2))));
-	_jsonLoader->LoadPlayerFromJson(_player, "Saves/Player.json");
+	_jsonLoader->LoadPlayerFromJson(*_player, "Saves/Player.json");
 	_currentMap->SetMapElement(_player);
 }
 
