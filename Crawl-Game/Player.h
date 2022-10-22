@@ -1,7 +1,6 @@
 #pragma once
 #include <iostream>
 #include "Character.h"
-#include "EntityLootable.h"
 //#include "InventoryWeapon.h"
 
 class InventoryWeapon;
@@ -16,10 +15,9 @@ public:
 
 	Player();
 	Player(Coordinates coodinates);
-	void Move() override;
-	//void InteractWithEntityLootable(EntityLootable* entityLootable) override;
+	void Move() override;	
 	void HealYourself();
+	//Inventory GetInventory();
 	//void ChangeCurrentWeapon(InventoryWeapon weaponOfInventory);
 	void Draw() override;
-	//void AcceptCharacter();
 };

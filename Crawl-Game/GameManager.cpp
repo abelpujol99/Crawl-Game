@@ -33,7 +33,7 @@ GameManager::GameManager()
 
 	SetCurrentMap(Coordinates(floor(WORLD_MAP_HEIGHT / 2), floor(WORLD_MAP_WIDTH / 2)));
 	_player = new Player((Coordinates(floor(MAP_HEIGHT / 2), floor(MAP_WIDTH / 2))));
-	_maps[_currentWorldMapCoordinates.x][_currentWorldMapCoordinates.y]->SetMapElement(_player);
+	_currentMap->SetMapElement(_player);
 }
 
 GameManager::~GameManager()
@@ -76,9 +76,12 @@ void GameManager::Loop()
 		{
 			_player->SetTargetCoordinatesToMove(Coordinates(_player->GetCoordinates().x, _player->GetCoordinates().y + 1));
 		}
+		else if(input == 'e')
+		{
+			_player->HealYourself();
+		}
 
-		auxMapElement = _maps[_currentWorldMapCoordinates.x][_currentWorldMapCoordinates.y]
-			->CheckCollision(_player->GetTargetCoordinatesToMove());
+		auxMapElement = _currentMap->CheckCollision(_player->GetTargetCoordinatesToMove());
 		ActionDependOnMapElementType(auxMapElement);
 	}
 }
@@ -88,63 +91,105 @@ void GameManager::ActionDependOnMapElementType(MapElement* mapElement) {
 	switch (mapElement->GetMapElementType())
 	{
 	case NONE:
-	{
-		_maps[_currentWorldMapCoordinates.x][_currentWorldMapCoordinates.y]->MoveCharacter(_player);
-		mapElement->~MapElement();
-		//std::pair<MapElement*, MapElement*> mapElementsToSwap{ _player, mapElement };
-		//_maps[_currentWorldMapCoordinates.x][_currentWorldMapCoordinates.y]->SwapMapElementsInCurrentMap(mapElementsToSwap);
-	}		
+	
+		if (/*_player->GetCurrentWeapon().GetRange() == 2*/false)
+		{
+			Coordinates weaponTargetCoordinates = GetWeaponTargetCoordinates(_player);
+			MapElement* weaponTargetElement = _maps[_currentWorldMapCoordinates.x][_currentWorldMapCoordinates.y]->CheckCollision(weaponTargetCoordinates);
+			if (weaponTargetElement->GetMapElementType() == ENEMY || weaponTargetElement->GetMapElementType() == CHEST)
+			{
+				ActionDependOnMapElementType(weaponTargetElement);
+			}
+		}
+		else
+		{
+			_currentMap->MoveCharacter(_player);
+			mapElement->~MapElement();
+		}
+			
 		break;
 
-	/*case ENEMY:
-
+	case ENEMY:
+		{
+			Enemy* enemy = dynamic_cast<Enemy*>(mapElement);
+			enemy->ModifyHealthValueOnTakeDamageOrHeal(-1);
+		}
 		break;
 	case CHEST:
+		{
+			Chest* chest = dynamic_cast<Chest*>(mapElement);
+			chest->Drop();
+		}
 
 		break;
 	case POTION:
-
+		{
+			Potion* potion = dynamic_cast<Potion*>(mapElement);
+			//_player->GetInventory()->AddPotion(potion);
+		}	
 		break;
 	case COIN:
-
+		{
+			Coin* coin = dynamic_cast<Coin*>(mapElement);
+			//_player->GetInventory()->AddCoin(coin);
+		}
 		break;
 	case WEAPON:
-
+		//_player->GetInventory()->AddWeapon(InventoryWeapon());
 		break;
-	case WALL:
-
-		break;*/
 	case PORTAL:
+
 		for (int i = 0; i < _portals.size(); i++)
 		{
 			if (_portals[i]->GetCoordinates().x == _player->GetTargetCoordinatesToMove().x
 				&& _portals[i]->GetCoordinates().y == _player->GetTargetCoordinatesToMove().y)
 			{
-				_maps[_currentWorldMapCoordinates.x][_currentWorldMapCoordinates.y]->SetEmptyBox(_player->GetCoordinates());
+				_currentMap->SetEmptyBox(_player->GetCoordinates());
 				Coordinates _portalCoordinates = _portals[i]->GetCoordinates();
-				if (_portalCoordinates.x == 0)
-				{
-					_player->SetCoordinates(Coordinates(MAP_WIDTH - 2, floor(MAP_HEIGHT / 2)));
-				}
-				else if (_portalCoordinates.x == MAP_WIDTH - 1)
-				{
-					_player->SetCoordinates(Coordinates(1, floor(MAP_HEIGHT / 2)));
-				}
-				else if (_portalCoordinates.y == 0) 
-				{
-					_player->SetCoordinates(Coordinates(floor(MAP_WIDTH / 2), MAP_HEIGHT - 2));
-				}
-				else if (_portalCoordinates.y == MAP_HEIGHT - 1)
-				{
-					_player->SetCoordinates(Coordinates(floor(MAP_WIDTH / 2), 1));
-				}
+				SetPlayerCoordinates(_portalCoordinates);
 				SetCurrentMap(_portals[i]->Teleport(_currentWorldMapCoordinates));
-				_maps[_currentWorldMapCoordinates.x][_currentWorldMapCoordinates.y]->SetMapElement(_player);
+				_currentMap->SetMapElement(_player);
 			}
 		}
 		break;
 	}
 
+}
+
+Coordinates GameManager::GetWeaponTargetCoordinates(Character* character) {
+
+	Coordinates weaponTargetCoordinates = character->GetCoordinates().SubtractCoordinates(character->GetTargetCoordinatesToMove());
+	if (weaponTargetCoordinates.y == 0)
+	{
+		//weaponTargetCoordinates.MultiplyCoordinateX(character->GetCurrentWeapon().GetRange());
+	}
+	else
+	{
+		//weaponTargetCoordinates.MultiplyCoordinateY(character->GetCurrentWeapon().GetRange());
+	}
+	return weaponTargetCoordinates;
+}
+
+void GameManager::SetPlayerCoordinates(Coordinates portalCoordinates) {
+
+	if (portalCoordinates.x == 0)
+	{
+		_player->SetCoordinates(Coordinates(MAP_WIDTH - 2, floor(MAP_HEIGHT / 2)));
+	}
+	else if (portalCoordinates.x == MAP_WIDTH - 1)
+	{
+		_player->SetCoordinates(Coordinates(1, floor(MAP_HEIGHT / 2)));
+	}
+	else if (portalCoordinates.y == 0)
+	{
+		_player->SetCoordinates(Coordinates(floor(MAP_WIDTH / 2), MAP_HEIGHT - 2));
+	}
+	else if (portalCoordinates.y == MAP_HEIGHT - 1)
+	{
+		_player->SetCoordinates(Coordinates(floor(MAP_WIDTH / 2), 1));
+	}
+
+	_player->SetTargetCoordinatesToMove(_player->GetCoordinates());
 }
 
 void GameManager::Setup()
@@ -159,16 +204,17 @@ bool GameManager::CheckExit()
 
 void GameManager::SetMapElementInCurrentMap(MapElement* mapElement) {
 
-	_maps[_currentWorldMapCoordinates.x][_currentWorldMapCoordinates.y]->SetMapElement(mapElement);
+	_currentMap->SetMapElement(mapElement);
 }
 
 void GameManager::SetCurrentMap(Coordinates nextMapCoordinates) {
 
 	this->_currentWorldMapCoordinates = nextMapCoordinates;
-	this->_currentMap = _maps[_currentWorldMapCoordinates.x][_currentWorldMapCoordinates.y]->GetMapElements();
-	this->_portals = _maps[_currentWorldMapCoordinates.x][_currentWorldMapCoordinates.y]->GetPortals();
+	this->_currentMap = _maps[_currentWorldMapCoordinates.x][_currentWorldMapCoordinates.y];
+	this->_currentMapElements = _currentMap->GetMapElements();	
+	this->_portals = _currentMap->GetPortals();
 	ConsoleControl::SetPosition(0, 0);
-	this->_maps[_currentWorldMapCoordinates.x][_currentWorldMapCoordinates.y]->Draw();
+	this->_currentMap->Draw();
 }
 
 void GameManager::DrawMapElements() {
@@ -177,13 +223,13 @@ void GameManager::DrawMapElements() {
 	{
 		for (int j = 0; j < MAP_WIDTH; j++)
 		{
-			std::vector<MapElement*>* auxMapElement = _currentMap->at(j);
+			MapElement** mapElementPointer = _currentMap->SelectMapElementPointer(Coordinates(j, i));
 
-			if (auxMapElement->at(i)->GetMapElementType() != WALL 
-				&& auxMapElement->at(i)->GetMapElementType() != PORTAL)
+			if (mapElementPointer[0]->GetMapElementType() != WALL
+				&& mapElementPointer[0]->GetMapElementType() != PORTAL)
 			{
-				ConsoleControl::SetPosition(i, j);
-				auxMapElement->at(i)->Draw();
+				ConsoleControl::SetPosition(j, i);
+				mapElementPointer[0]->Draw();
 			}
 		}
 	}

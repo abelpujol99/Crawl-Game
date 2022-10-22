@@ -21,6 +21,11 @@ void Player::HealYourself() {
 	//this->inventory.UsePotion();
 }
 
+/*Inventory Player::GetInventory() {
+
+	return inventory;
+}*/
+
 /*void Player::ChangeCurrentWeapon(InventoryWeapon weaponOfInventory)
 {
 	this->_currentWeapon = weaponOfInventory;

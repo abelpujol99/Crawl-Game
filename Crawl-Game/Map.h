@@ -1,7 +1,6 @@
 #pragma once
 #include <iostream>
 #include <vector>
-//#include "Coordinates.h"
 
 struct Coordinates;
 class MapElement;
@@ -30,8 +29,7 @@ public:
 
 	Map(Coordinates mapOnWorldMapCoordinates, Coordinates maxWidthAndHeightOfWorldMap);
 	MapElement* CheckCollision(Coordinates coordinates);
-	//void Draw(MapElement* mapElements);
-	MapElement** SelectMapElement(Coordinates coordinates);
+	MapElement** SelectMapElementPointer(Coordinates coordinates);
 	std::vector<std::vector<MapElement*>*>* GetMapElements();
 	std::vector<Portal*> GetPortals();
 	void MoveCharacter(Character* character);
