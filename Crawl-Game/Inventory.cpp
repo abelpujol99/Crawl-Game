@@ -1,8 +1,4 @@
 #include "Inventory.h"
-#include "Player.h"
-
-
-class player; 
 
 Inventory::Inventory() {
 	_coins = 0;

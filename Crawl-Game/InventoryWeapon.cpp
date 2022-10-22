@@ -1,9 +1,16 @@
 #include "InventoryWeapon.h"
 
-InventoryWeapon::InventoryWeapon(/*std::string name, int damage, int range*/) {
-	//_name = name;
-	//_damage = damage;
-	//_range = range; 
+InventoryWeapon::InventoryWeapon()
+{
+	_name = "invalid";
+	_damage = 0;
+	_range = 0;
+}
+
+InventoryWeapon::InventoryWeapon(std::string name, int damage, int range) {
+	_name = name;
+	_damage = damage;
+	_range = range; 
 }
 
 std::string InventoryWeapon::GetName() {
