@@ -20,4 +20,13 @@ void GameUI::Draw(Player* player, int _posX)
 
 	ConsoleControl::SetPosition(posX, posY + 3);
 	cout << "Weapon: " << player->GetCurrentWeapon().GetName() << "       ";
+
+	ConsoleControl::SetPosition(posX, posY + 6);
+	cout << "WASD: Move/Attack";
+
+	ConsoleControl::SetPosition(posX, posY + 7);
+	cout << "E: Heal";
+
+	ConsoleControl::SetPosition(posX, posY + 8);
+	cout << "Q: Swap Weapon";
 }
