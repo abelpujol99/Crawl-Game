@@ -16,6 +16,7 @@ private:
 public:
 
 	Coin();
+	~Coin();
 	int GetPoints();
 	void Draw() override;
 };

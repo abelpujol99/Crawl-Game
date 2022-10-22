@@ -8,7 +8,7 @@ class Player : public Character {
 
 private: 
 
-	Inventory _inventory;
+	Inventory* _inventory;
 
 public:
 
@@ -17,8 +17,8 @@ public:
 	void Move(int lastCommand) override;
 	void HealYourself();
 	void ModifyHealthValueOnTakeDamageOrHeal(int modifyValue);
-	Inventory GetInventory();
-	void ChangeCurrentWeapon(InventoryWeapon weaponOfInventory);
+	Inventory* GetInventory();
+	void ChangeCurrentWeapon();
 	void SetWorldMapCoordinates(Coordinates coordinates);
 	Coordinates GetWorldMapCoordinates();
 	void Draw() override;

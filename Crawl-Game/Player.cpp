@@ -7,7 +7,8 @@ Player::Player() : Character() {
 
 Player::Player(Coordinates coordinates, Coordinates worldMapCoordinates) : Character (coordinates, worldMapCoordinates) {
 
-	this->_inventory = Inventory();
+	_health = 5;
+	this->_inventory = new Inventory(_currentWeapon);
 	_mapElementType = PLAYER;
 }
 
@@ -58,15 +59,15 @@ void Player::ModifyHealthValueOnTakeDamageOrHeal(int modifyValue) {
 	}
 }
 
-Inventory Player::GetInventory() {
+Inventory* Player::GetInventory() {
 
 	return _inventory;
 }
 
-void Player::ChangeCurrentWeapon(InventoryWeapon weaponOfInventory)
+void Player::ChangeCurrentWeapon()
 {
-    _inventory.SwapWeapons();
-    this->_currentWeapon = _inventory.GetWeapons().first;
+    _inventory->SwapWeapons();
+    this->_currentWeapon = _inventory->GetWeapons().first;
 }
 
 void Player::Draw() {

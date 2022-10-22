@@ -2,6 +2,7 @@
 
 Enemy::Enemy(Coordinates coordinates, Coordinates worldMapCoordinates) : Character(coordinates, worldMapCoordinates) {
 
+	_health = 2;
 	_targetTime = 0;
 	Character::_mapElementType = ENEMY;
 
