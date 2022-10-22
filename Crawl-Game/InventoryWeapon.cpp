@@ -1,8 +1,9 @@
 #include "InventoryWeapon.h"
 
-InventoryWeapon::InventoryWeapon() {
-	//welk wapen ik vast heb 
-	// aangeven wat welk naam en damage het heeft 
+InventoryWeapon::InventoryWeapon(std::string name, int damage, int range) {
+	_name = name;
+	_damage = damage;
+	_range = range; 
 }
 
 std::string InventoryWeapon::GetName() {

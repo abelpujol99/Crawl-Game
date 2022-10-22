@@ -35,18 +35,14 @@ void Inventory::AddWeaponToInventory(InventoryWeapon Weapon) {
 	}
 }
 
-int Inventory::GetPotions() {
-	return _potion.GetHealValue();
-}
-
-void Inventory::ModifyPotions(int change) {
-	//else list of poisions 
-}
-
-int Inventory::UsePotion(int heal) {
+int Inventory::UsePotions() {
 	
+	return _potion[1].GetHealValue();
+}
 
-	return heal;
+void Inventory::AddPotion(Potion potion) {
+	_potion.push_back(potion);
+
 }
 
 int Inventory::GetCoins() {

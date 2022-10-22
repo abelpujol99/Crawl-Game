@@ -2,7 +2,7 @@
 #include "InventoryWeapon.h" 
 #include "Potion.h"
 #include "Weapon.h"
-
+#include <string>
 #include <utility>
 
 class Inventory
@@ -12,9 +12,11 @@ private:
 	Potion _potion;
 	int _coins;
 	int _Inventorycounter;
+	
 	InventoryWeapon ChangeWeapon(InventoryWeapon holding);
+
 public:
-	Inventory();   
+	Inventory(): InventoryWeapon(std::string name, int damage, int range);
 
 	std::pair<InventoryWeapon,InventoryWeapon> GetWeapons();
 
