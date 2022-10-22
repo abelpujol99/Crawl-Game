@@ -46,40 +46,45 @@ GameManager::~GameManager()
 
 void GameManager::Loop()
 {
-	char lastChar = input->LastInput();
+	/*char lastChar = input->LastInput();
 	if (lastChar != 0) {
 		//exit = lastChar == KB_ESCAPE;
 		cout << lastChar << endl;
-	}
+	}*/
 	while (_player->IsAlive())
 	{		
 		DrawMapElements();
 
-		char input;
-		cin >> input;
+		//char input;
+		//cin >> input;
+
+		int lastChar = input->LastInput();
 
 		MapElement* auxMapElement;
 
-		if (input == 'd')
+		if (lastChar == KB_D)
 		{
 			_player->SetTargetCoordinatesToMove(Coordinates(_player->GetCoordinates().x + 1, _player->GetCoordinates().y));
 		}
-		else if (input == 'a')
+		else if (lastChar == KB_A)
 		{
 			_player->SetTargetCoordinatesToMove(Coordinates(_player->GetCoordinates().x - 1, _player->GetCoordinates().y));
 		}
-		else if (input == 'w')
+		else if (lastChar == KB_W)
 		{
 			_player->SetTargetCoordinatesToMove(Coordinates(_player->GetCoordinates().x, _player->GetCoordinates().y - 1));
 		}
-		else if (input == 's')
+		else if (lastChar == KB_S)
 		{
 			_player->SetTargetCoordinatesToMove(Coordinates(_player->GetCoordinates().x, _player->GetCoordinates().y + 1));
 		}
-		else if(input == 'e')
+		else if(lastChar == KB_E)
 		{
 			_player->HealYourself();
 		}
+
+		
+
 
 		auxMapElement = _currentMap->CheckCollision(_player->GetTargetCoordinatesToMove());
 		ActionDependOnMapElementType(auxMapElement);
