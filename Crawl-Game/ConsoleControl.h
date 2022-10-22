@@ -56,6 +56,7 @@ public:
 	static void SetPosition(short int x, short int y);
 	static void Clear();
 	static void ClearCharacter(char character, ConsoleColor ForeColor, ConsoleColor BackColor);
+	static void ShowConsoleCursor(bool showFlag);
 
 	static void Wait(unsigned long milisecons);
 

@@ -192,6 +192,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="InputTimer.cpp">
+    <ClCompile Include="DropLootable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

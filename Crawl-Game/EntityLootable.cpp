@@ -2,6 +2,19 @@
 
 EntityLootable::EntityLootable() {
 
+	SetDrop();
+}
+
+EntityLootable::EntityLootable(Coordinates currentWorldMapCoordinates) : MapElement(currentWorldMapCoordinates) {
+
+	SetDrop();
+}
+
+EntityLootable::~EntityLootable() {
+}
+
+void EntityLootable::SetDrop() {
+
 	srand(time(NULL));
 
 	switch (rand() % 3)
@@ -9,9 +22,11 @@ EntityLootable::EntityLootable() {
 	case 0:
 		this->_drop = new Potion();
 		break;
+
 	case 1:
 		this->_drop = new Coin();
 		break;
+
 	case 2:
 		this->_drop = new Weapon();
 		break;
@@ -21,16 +36,9 @@ EntityLootable::EntityLootable() {
 	}
 }
 
-EntityLootable::~EntityLootable() {
-}
 
-void EntityLootable::Drop() {
 
-	this->_drop->SetCoordinates(this->GetCoordinates());
-}
+Coordinates EntityLootable::GetWorldMapCoordinates() {
 
-void EntityLootable::Spawn(Coordinates coordinate) {
-
-	//TODO: Get free coordinates from Map through GameManager
-
+	return this->_currentWorldMapCoordinates;
 }

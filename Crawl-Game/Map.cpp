@@ -8,6 +8,8 @@
 
 Map::Map(Coordinates mapOnWorldMapCoordinates, Coordinates maxWidthAndHeightOfWorldMap) {	
 
+	this->_worldMapCoordinates = mapOnWorldMapCoordinates;
+
 	for (int i = 0; i < MAP_WIDTH; i++)
 	{
 		std::vector<MapElement*>* auxMapElements = new std::vector<MapElement*>();
@@ -21,16 +23,16 @@ Map::Map(Coordinates mapOnWorldMapCoordinates, Coordinates maxWidthAndHeightOfWo
 		this->_mapPtr->push_back(auxMapElements);
 	}
 
-	CheckPortalsAvailability(mapOnWorldMapCoordinates, maxWidthAndHeightOfWorldMap);
+	CheckPortalsAvailability(maxWidthAndHeightOfWorldMap);
 }
 
-void Map::CheckPortalsAvailability(Coordinates mapOnWorldMapCoordinates, Coordinates maxWidthAndHeightOfWorldMap) {
+void Map::CheckPortalsAvailability(Coordinates maxWidthAndHeightOfWorldMap) {
 		
 	std::vector<bool> cardinalPortals;
-	cardinalPortals.push_back(!mapOnWorldMapCoordinates.CompareYCoordinate(0));
-	cardinalPortals.push_back(!mapOnWorldMapCoordinates.CompareXCoordinate(0));
-	cardinalPortals.push_back(!mapOnWorldMapCoordinates.CompareXCoordinate(maxWidthAndHeightOfWorldMap.x - 1));
-	cardinalPortals.push_back(!mapOnWorldMapCoordinates.CompareYCoordinate(maxWidthAndHeightOfWorldMap.y - 1));
+	cardinalPortals.push_back(!_worldMapCoordinates.CompareYCoordinate(0));
+	cardinalPortals.push_back(!_worldMapCoordinates.CompareXCoordinate(0));
+	cardinalPortals.push_back(!_worldMapCoordinates.CompareXCoordinate(maxWidthAndHeightOfWorldMap.x - 1));
+	cardinalPortals.push_back(!_worldMapCoordinates.CompareYCoordinate(maxWidthAndHeightOfWorldMap.y - 1));
 
 	CreateMap(cardinalPortals);
 }
@@ -87,11 +89,6 @@ MapElement* Map::CheckCollision(Coordinates coordinates) {
 	return *SelectMapElementPointer(coordinates);
 }
 
-//void Map::Draw(MapElement* mapElements) {
-//
-//	//TODO: Change Cursor with Console Control and Print mapElements
-//}
-
 std::vector<std::vector<MapElement*>*>* Map::GetMapElements() {
 
 	return this->_mapPtr;
@@ -104,7 +101,7 @@ std::vector<Portal*> Map::GetPortals() {
 
 void Map::MoveCharacter(Character* character) {
 
-	SetEmptyBox(character->GetCoordinates());
+	SetEmptyBox(character->GetLastCoordinates());
 	character->SetCoordinates(character->GetTargetCoordinatesToMove());
 
 	MapElement** mapElementPtr = SelectMapElementPointer(character->GetCoordinates());
@@ -115,6 +112,12 @@ void Map::SetEmptyBox(Coordinates coordinates) {
 
 	MapElement** mapElemenPtrPtr = SelectMapElementPointer(coordinates);
 	*mapElemenPtrPtr = new EmptyBox(Coordinates(coordinates.x, coordinates.y));
+	mapElemenPtrPtr[0]->Draw();
+}
+
+Coordinates Map::GetWorldMapCoordinates() {
+
+	return _worldMapCoordinates;
 }
 
 void Map::SetMapElement(MapElement* mapElement) {

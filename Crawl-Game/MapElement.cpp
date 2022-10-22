@@ -1,5 +1,9 @@
 #include "MapElement.h"
 
+MapElement::MapElement() {}
+
+MapElement::MapElement(Coordinates currentWorldMapCoordinates) : _currentWorldMapCoordinates(currentWorldMapCoordinates) {}
+
 MapElement::~MapElement() {};
 
 void MapElement::SetCoordinates(Coordinates coordinates) {

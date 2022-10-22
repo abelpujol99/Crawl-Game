@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include "Coordinates.h"
 
 struct Coordinates;
 class MapElement;
@@ -20,8 +21,9 @@ private:
 
 	std::vector<std::vector<MapElement*>*>* _mapPtr = new std::vector<std::vector<MapElement*>*>();
 	std::vector<Portal*> _portals;
+	Coordinates _worldMapCoordinates;
 
-	void CheckPortalsAvailability(Coordinates mapOnWorldMapCoordinates, Coordinates maxWidthAndHeightOfWorldMap);
+	void CheckPortalsAvailability(Coordinates maxWidthAndHeightOfWorldMap);
 	void CreateMap(std::vector<bool> cardinalPortals);
 	void CreateBlocksOrPortals(Coordinates coordinates, std::vector<bool> cardinalPortals, int& portalCounters, std::vector<MapElement*>* auxMapElements);
 
@@ -33,6 +35,7 @@ public:
 	std::vector<std::vector<MapElement*>*>* GetMapElements();
 	std::vector<Portal*> GetPortals();
 	void MoveCharacter(Character* character);
+	Coordinates GetWorldMapCoordinates();
 	void SetMapElement(MapElement* mapElement);
 	void SetEmptyBox(Coordinates coordinates);
 	void Draw();

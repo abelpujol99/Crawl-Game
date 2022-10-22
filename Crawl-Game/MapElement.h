@@ -1,5 +1,6 @@
 #pragma once
 #include "Coordinates.h"
+#include "ConsoleControl.h"
 
 struct Coordinates;
 
@@ -16,6 +17,8 @@ protected:
 
 public:
 
+	MapElement();
+	MapElement(Coordinates currentWorldMapCoordinates);
 	~MapElement();
 	void SetCoordinates(Coordinates coordinates);
 	Coordinates GetCoordinates();

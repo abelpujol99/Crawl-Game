@@ -5,20 +5,53 @@ Player::Player() : Character() {
 	_mapElementType = PLAYER;
 }
 
-Player::Player(Coordinates coordinates) : Character (coordinates) {
+Player::Player(Coordinates coordinates, Coordinates worldMapCoordinates) : Character (coordinates, worldMapCoordinates) {
 
 	this->_inventory = Inventory();
 	_mapElementType = PLAYER;
 }
 
-void Player::Move() {
+void Player::Move(int lastCommand) {
 
+	if (lastCommand == KB_D)
+	{
+		this->SetTargetCoordinatesToMove(Coordinates(this->GetCoordinates().x + 1, this->GetCoordinates().y));
+	}
+	else if (lastCommand == KB_A)
+	{
+		this->SetTargetCoordinatesToMove(Coordinates(this->GetCoordinates().x - 1, this->GetCoordinates().y));
+	}
+	else if (lastCommand == KB_W)
+	{
+		this->SetTargetCoordinatesToMove(Coordinates(this->GetCoordinates().x, this->GetCoordinates().y - 1));
+	}
+	else if (lastCommand == KB_S)
+	{
+		this->SetTargetCoordinatesToMove(Coordinates(this->GetCoordinates().x, this->GetCoordinates().y + 1));
+	}
 
+	this->Draw();
+
+}
+
+void Player::SetWorldMapCoordinates(Coordinates coordinates) {
+
+    this->_currentWorldMapCoordinates = coordinates;
+}
+
+Coordinates Player::GetWorldMapCoordinates() {
+
+    return _currentWorldMapCoordinates;
 }
 
 void Player::HealYourself() {
 
 	this->_inventory.UsePotion();
+}
+
+void Player::ModifyHealthValueOnTakeDamageOrHeal(int modifyValue) {
+
+    this->_health += modifyValue;
 }
 
 Inventory Player::GetInventory() {
@@ -34,6 +67,7 @@ void Player::ChangeCurrentWeapon(InventoryWeapon weaponOfInventory)
 
 void Player::Draw() {
 
+    ConsoleControl::SetPosition(this->GetCoordinates().x, this->GetCoordinates().y);
 	std::cout << 'P';
 }
 

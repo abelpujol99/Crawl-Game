@@ -13,11 +13,13 @@ private:
 public:
 
 	Player();
-	Player(Coordinates coodinates);
-	void Move() override;	
+	Player(Coordinates coodinates, Coordinates worldMapCoordinates);
+	void Move(int lastCommand) override;
 	void HealYourself();
 	Inventory GetInventory();
 	void ChangeCurrentWeapon(InventoryWeapon weaponOfInventory);
+	void SetWorldMapCoordinates(Coordinates coordinates);
+	Coordinates GetWorldMapCoordinates();
 	void Draw() override;
 
 	static Player* Parse(Json::Value jsonValue);
