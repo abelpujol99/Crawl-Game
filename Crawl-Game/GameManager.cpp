@@ -66,7 +66,7 @@ void GameManager::Loop()
 		ActionDependOnMapElementType(auxMapElement);
 
 		if (_spawnTimer->CheckSpawn()) {
-			int random = int(rand() % 10);
+			int random = int(rand() % 100);
 			if (random < 70) {
 				//ADD ENEMY
 			}
