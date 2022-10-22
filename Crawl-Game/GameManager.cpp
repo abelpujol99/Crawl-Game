@@ -183,9 +183,9 @@ void GameManager::SetPlayerCoordinates(Coordinates portalCoordinates) {
 
 void GameManager::Setup()
 {
-	_threadManager->StartInputThread(_input);
-	_threadManager->StartAutoSaveThread(_autosaveTimer);
-	_threadManager->StartSpawnThread(_spawnTimer);
+	//_threadManager->StartInputThread(_input);
+	//_threadManager->StartAutoSaveThread(_autosaveTimer);
+	//_threadManager->StartSpawnThread(_spawnTimer);
 }
 
 bool GameManager::CheckExit()
