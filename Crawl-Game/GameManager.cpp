@@ -4,8 +4,9 @@ GameManager::GameManager()
 {
 	_threadManager = new ThreadManager();
 	_input = new Input();
-	_autosaveTimer = new AutosaveTimer();
-	_spawnTimer = new EnemySpawn();
+	_inputTimer = new Timer(INPUT_TIME);
+	_autosaveTimer = new Timer(AUTOSAVE_TIME);
+	_spawnTimer = new Timer(MAX_SPAWN_TIME,MIN_SPAWN_TIME);
 	_gameUI = new GameUI();
 	
 	for (int i = 0; i < WORLD_MAP_WIDTH; i++)
@@ -65,7 +66,7 @@ void GameManager::Loop()
 		auxMapElement = _currentMap->CheckCollision(_player->GetTargetCoordinatesToMove());
 		ActionDependOnMapElementType(auxMapElement);
 
-		if (_spawnTimer->CheckSpawn()) {
+		if (_spawnTimer->CheckTime()) {
 			int random = int(rand() % 100);
 			if (random < 70) {
 				//ADD ENEMY
@@ -75,7 +76,7 @@ void GameManager::Loop()
 			}
 		}
 
-		if (_autosaveTimer->CheckSave()) {
+		if (_autosaveTimer->CheckTime()) {
 			_jsonSaver->SaveToJson(_player->ToJsonValue(), "Saves/Player.json");
 		}
 
@@ -194,9 +195,10 @@ void GameManager::SetPlayerCoordinates(Coordinates portalCoordinates) {
 
 void GameManager::Setup()
 {
-	_threadManager->StartInputThread(_input);
-	_threadManager->StartAutoSaveThread(_autosaveTimer);
-	_threadManager->StartSpawnThread(_spawnTimer);
+	_threadManager->StartInputListenerThread(_input);
+	_threadManager->StartTimer(_autosaveTimer);
+	_threadManager->StartTimer(_inputTimer);
+	_threadManager->StartTimer(_spawnTimer);
 }
 
 bool GameManager::CheckExit()

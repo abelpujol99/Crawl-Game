@@ -1,23 +1,20 @@
 #pragma once
 #include <thread>
+#include <vector>
+#include <iostream>
 #include "Input.h"
-#include "AutosaveTimer.h"
-#include "EnemySpawn.h"
-#include "InputTimer.h"
+#include "Timer.h"
 
 class ThreadManager
 {
 private:
-	std::thread* _enemySpawnThread;
-	std::thread* _autoSaveThread;
-	std::thread* _inputTimerThread;
 	std::thread* _inputListenerThread;
+	std::vector<std::thread*> _timerThreads;
+
 public:
 	ThreadManager();
 	~ThreadManager();
 	void StartInputListenerThread(Input* inputListener);
-	void StartInputTimerThread(InputTimer* inputTimer);
-	void StartAutoSaveThread(AutosaveTimer* autosave);
-	void StartSpawnThread(EnemySpawn* enemySpawn);
+	void StartTimer(Timer* timer);
 };
 
