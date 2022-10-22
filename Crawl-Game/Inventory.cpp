@@ -31,7 +31,7 @@ void Inventory::AddWeaponToInventory(InventoryWeapon Weapon) {
 	}
 	else
 	{
-		_weaponsInInventory.second = Weapon;
+		ChangeWeapon(Weapon);
 	}
 }
 
@@ -40,7 +40,6 @@ int Inventory::GetPotions() {
 }
 
 void Inventory::ModifyPotions(int change) {
-	// will not be used?
 	//else list of poisions 
 }
 

@@ -14,7 +14,7 @@ private:
 	int _Inventorycounter;
 	InventoryWeapon ChangeWeapon(InventoryWeapon holding);
 public:
-	Inventory();
+	Inventory();   
 
 	std::pair<InventoryWeapon,InventoryWeapon> GetWeapons();
 
