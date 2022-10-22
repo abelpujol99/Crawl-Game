@@ -1,6 +1,9 @@
 #include "Chest.h"
 
-Chest::Chest(Coordinates worldMapCoordinates) : EntityLootable(worldMapCoordinates) {
+Chest::Chest(Coordinates coordinates, Coordinates worldMapCoordinates) : EntityLootable(worldMapCoordinates) {
+
+	_mapElementType = CHEST;
+	_currentCoordinates = coordinates;
 }
 
 void Chest::Drop(MapElement** mapElementPointer) {
@@ -13,5 +16,6 @@ void Chest::Drop(MapElement** mapElementPointer) {
 
 void Chest::Draw() {
 
+	ConsoleControl::SetPosition(this->GetCoordinates().x, this->GetCoordinates().y);
 	std::cout << 'C';
 }

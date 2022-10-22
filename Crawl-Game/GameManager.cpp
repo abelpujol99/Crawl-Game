@@ -9,6 +9,7 @@ GameManager::GameManager()
 	_spawnTimer = new Timer(MAX_SPAWN_TIME,MIN_SPAWN_TIME);
 	_gameUI = new GameUI();
 	_enemyPlacer = new EnemyPlacer();
+	_chestPlacer = new ChestPlacer();
 	
 	for (int i = 0; i < WORLD_MAP_WIDTH; i++)
 	{
@@ -22,8 +23,8 @@ GameManager::GameManager()
 	}
 
 	_player = new Player((Coordinates(floor(MAP_HEIGHT / 2), floor(MAP_WIDTH / 2))), Coordinates(1, 1));
-	SetCurrentMap(_player->GetWorldMapCoordinates());
 	_jsonLoader->LoadPlayerFromJson(*_player, "Saves/Player.json");
+	SetCurrentMap(_player->GetWorldMapCoordinates());	
 	_currentMap->SetMapElement(_player);
 }
 
@@ -39,40 +40,45 @@ GameManager::~GameManager()
 
 void GameManager::Loop()
 {
-	while (_player->IsAlive())
-	{	
-		if (_inputTimer->CheckTime()) {
-			MapElement* auxMapElement;
-			int lastCommand = _input->LastInput();
+	
+	if (_inputTimer->CheckTime()) {
+		MapElement* auxMapElement;
+		int lastCommand = _input->LastInput();
 
-			_player->Move(lastCommand);
+		_player->Move(lastCommand);
 
-			if (lastCommand == KB_E)
-			{
-				_player->HealYourself();
-			}
-
-			auxMapElement = _currentMap->CheckCollision(_player->GetTargetCoordinatesToMove());
-			ActionDependOnMapElementType(auxMapElement);
+		if (lastCommand == KB_E)
+		{
+			_player->HealYourself();
+		}
+		if (lastCommand == KB_Q)
+		{
+			_player->ChangeCurrentWeapon();
 		}
 
-		if (_spawnTimer->CheckTime()) {
-			int random = int(rand() % 100);
-			if (random < 70) {
-			 	Character* enemy = _enemyPlacer->PlaceEnemy(_currentMap);
-				_currentMap->SetMapElement(enemy);
-			}
-			else {
-				//ADD CHEST
-			}
-		}
-
-		if (_autosaveTimer->CheckTime()) {
-			_jsonSaver->SaveToJson(_player->ToJsonValue(), "Saves/Player.json");
-		}
-
-		_gameUI->Draw(_player, WORLD_MAP_WIDTH);
+		auxMapElement = _currentMap->CheckCollision(_player->GetTargetCoordinatesToMove());
+		ActionDependOnMapElementType(auxMapElement);
 	}
+
+	if (_spawnTimer->CheckTime()) {
+		int random = int(rand() % 100);
+		if (random < 10) {
+			Character* enemy = _enemyPlacer->PlaceEnemy(_currentMap);
+			_currentMap->SetMapElement(enemy);
+		}
+		else {
+			EntityLootable* chest = _chestPlacer->PlaceChest(_currentMap);
+			_currentMap->SetMapElement(chest);
+		}
+	}
+
+	if (_autosaveTimer->CheckTime()) {
+		_jsonSaver->SaveToJson(_player->ToJsonValue(), "Saves/Player.json");
+	}
+
+	_gameUI->Draw(_player, WORLD_MAP_WIDTH);
+
+	_exit = !_player->IsAlive();	
 }
 
 void GameManager::ActionDependOnMapElementType(MapElement* mapElement) {
@@ -88,6 +94,12 @@ void GameManager::ActionDependOnMapElementType(MapElement* mapElement) {
 			if (weaponTargetElement->GetMapElementType() == ENEMY || weaponTargetElement->GetMapElementType() == CHEST)
 			{
 				ActionDependOnMapElementType(weaponTargetElement);
+			}
+			else
+			{
+				_player->SetLastCoordinates(_player->GetCoordinates());
+				_currentMap->MoveCharacter(_player);
+				mapElement->~MapElement();
 			}
 		}
 		else
@@ -115,19 +127,34 @@ void GameManager::ActionDependOnMapElementType(MapElement* mapElement) {
 	case POTION:
 		{
 			Potion* potion = dynamic_cast<Potion*>(mapElement);
-			_player->GetInventory().AddPotion(*potion);
+			_player->GetInventory()->AddPotion(*potion);
+			_currentMap->SetEmptyBox(_player->GetTargetCoordinatesToMove());
 		}	
 		break;
 
 	case COIN:
 		{
 			Coin* coin = dynamic_cast<Coin*>(mapElement);
-			_player->GetInventory().ModifyCoins(coin->GetPoints());
+			_player->GetInventory()->ModifyCoins(coin->GetPoints());
+			_currentMap->SetEmptyBox(_player->GetTargetCoordinatesToMove());
 		}
 		break;
 
 	case WEAPON:
-		//_player->GetInventory().AddWeaponToInventory(mapElement);
+		{
+			InventoryWeapon weapon;
+			int randomNumber = rand() % 2;
+			if (randomNumber == 0)
+			{
+				weapon = InventoryWeapon("Sword", 1);
+			}
+			else
+			{
+				weapon = InventoryWeapon("Spear", 2);
+			}
+			_player->GetInventory()->AddWeaponToInventory(weapon);
+			_currentMap->SetEmptyBox(_player->GetTargetCoordinatesToMove());
+		}	
 		break;
 
 	case PORTAL:
@@ -153,6 +180,7 @@ void GameManager::ActionDependOnMapElementType(MapElement* mapElement) {
 Coordinates GameManager::GetWeaponTargetCoordinates(Character* character) {
 
 	Coordinates weaponTargetCoordinates = character->GetCoordinates().SubtractCoordinates(character->GetTargetCoordinatesToMove());
+
 	if (weaponTargetCoordinates.y == 0)
 	{
 		weaponTargetCoordinates.MultiplyCoordinateX(character->GetCurrentWeapon().GetRange());
@@ -161,6 +189,9 @@ Coordinates GameManager::GetWeaponTargetCoordinates(Character* character) {
 	{
 		weaponTargetCoordinates.MultiplyCoordinateY(character->GetCurrentWeapon().GetRange());
 	}
+	
+	weaponTargetCoordinates.AddCoordinates(character->GetCoordinates());
+
 	return weaponTargetCoordinates;
 }
 
@@ -188,6 +219,7 @@ void GameManager::SetPlayerCoordinates(Coordinates portalCoordinates) {
 
 void GameManager::Setup()
 {
+	srand(time(NULL));
 	_threadManager->StartInputListenerThread(_input);
 	_threadManager->StartTimer(_autosaveTimer);
 	_threadManager->StartTimer(_inputTimer);
@@ -196,7 +228,7 @@ void GameManager::Setup()
 
 bool GameManager::CheckExit()
 {
-	return exit;
+	return _exit;
 }
 
 void GameManager::SetMapElementInCurrentMap(MapElement* mapElement) {

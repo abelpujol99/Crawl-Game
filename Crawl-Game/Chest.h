@@ -6,7 +6,7 @@ class Chest : public EntityLootable
 {
 public:
 
-	Chest(Coordinates worldMapCoordinates);
+	Chest(Coordinates coordinates, Coordinates worldMapCoordinates);
 	void Drop(MapElement** mapElementPointer) override;
 	void Draw() override;
 };

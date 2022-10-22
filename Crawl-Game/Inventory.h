@@ -15,7 +15,7 @@ private:
 	int _coins;
 
 public:
-	Inventory();   
+	Inventory(InventoryWeapon weapon);   
 
 	std::pair<InventoryWeapon,InventoryWeapon> GetWeapons();
 	void AddWeaponToInventory(InventoryWeapon weapon);

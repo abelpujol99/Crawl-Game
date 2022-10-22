@@ -8,8 +8,10 @@ Coin::Coin() : DropLootable() {
 	_mapElementType = COIN;
 }
 
-int Coin::GetPoints() {
+Coin::~Coin() {}
 
+int Coin::GetPoints() {
+		
 	return _points;
 }
 

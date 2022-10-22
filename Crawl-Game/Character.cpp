@@ -2,7 +2,6 @@
 
 Character::Character() {
 
-	this->_health = 5;
 }
 
 Character::Character(Coordinates coordinates, Coordinates worldMapCoordinates) : MapElement(worldMapCoordinates) {

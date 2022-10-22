@@ -22,11 +22,12 @@
 #include "JsonLoader.h"
 #include "Timer.h"
 #include "EnemyPlacer.h"
+#include "ChestPlacer.h"
 
 #define WORLD_MAP_WIDTH 3
 #define WORLD_MAP_HEIGHT 3
-#define MAX_SPAWN_TIME 15000
-#define MIN_SPAWN_TIME 10000
+#define MAX_SPAWN_TIME 10000
+#define MIN_SPAWN_TIME 7000
 #define AUTOSAVE_TIME 5000
 #define INPUT_TIME 100
 
@@ -39,6 +40,7 @@ private:
 	JsonSaver* _jsonSaver;
 	JsonLoader* _jsonLoader;
 	EnemyPlacer* _enemyPlacer;
+	ChestPlacer* _chestPlacer;
 	Timer* _spawnTimer;
 	Timer* _autosaveTimer;
 	Timer* _inputTimer;
@@ -49,8 +51,8 @@ private:
 	std::vector<std::vector<MapElement*>*>* _currentMapElements;
 	Player* _player;
 	std::vector<Portal*> _portals;
+	bool _exit = false;
 
-	//void CreatePortals();
 	void SetMapElementInCurrentMap(MapElement* mapElement);
 	void SetCurrentMap(Coordinates nextMapCoordinates);
 	void ActionDependOnMapElementType(MapElement* mapElement);
