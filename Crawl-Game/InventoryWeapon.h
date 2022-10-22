@@ -1,15 +1,14 @@
 #pragma once
 #include <string>
-class InventoryWeapon
-{
+
+class InventoryWeapon {
 private:
 	std::string _name;
-		int _damage;
-		int _range;
+	int _damage;
+	int _range;
 public:
-	Weapon();
+	InventoryWeapon();
 	std::string GetName();
 	int GetDamage();
 	int GetRange();
-
-}
+};
