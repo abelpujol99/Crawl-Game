@@ -7,7 +7,7 @@ Player::Player() : Character() {
 
 Player::Player(Coordinates coordinates) : Character (coordinates) {
 
-	//this->_inventory = Inventory();
+	this->_inventory = Inventory();
 	_mapElementType = PLAYER;
 }
 
@@ -18,13 +18,19 @@ void Player::Move() {
 
 void Player::HealYourself() {
 
-	//this->inventory.UsePotion();
+	this->_inventory.UsePotion();
 }
 
-/*void Player::ChangeCurrentWeapon(InventoryWeapon weaponOfInventory)
+Inventory Player::GetInventory() {
+
+	return _inventory;
+}
+
+void Player::ChangeCurrentWeapon(InventoryWeapon weaponOfInventory)
 {
-	this->_currentWeapon = weaponOfInventory;
-}*/
+    _inventory.SwapWeapons();
+    this->_currentWeapon = _inventory.GetWeapons().first;
+}
 
 void Player::Draw() {
 

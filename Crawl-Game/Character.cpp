@@ -1,5 +1,4 @@
 #include "Character.h"
-//#include "Weapon.h"
 
 Character::Character() {
 
@@ -9,7 +8,7 @@ Character::Character() {
 Character::Character(Coordinates coordinates) {
 	
 	this->_currentCoordinates = coordinates;
-	//this->_currentWeapon = InventoryWeapon("Sword", 1);
+	this->_currentWeapon = InventoryWeapon("Sword", 1);
 	this->_health = 5;
 }
 
@@ -26,9 +25,19 @@ bool Character::IsAlive() {
 	return _health >= 0;
 }
 
+int Character::GetHealth()
+{
+	return _health;
+}
+
 void Character::SetTargetCoordinatesToMove(Coordinates coordinates) {
 
 	this->_targetCoordinatesToMove = coordinates;
+}
+
+InventoryWeapon Character::GetCurrentWeapon() {
+
+	return _currentWeapon;
 }
 
 Coordinates Character::GetTargetCoordinatesToMove() {

@@ -12,6 +12,7 @@ protected:
 	
 	MapElementType _mapElementType;
 	Coordinates _currentCoordinates;
+	Coordinates _currentWorldMapCoordinates;
 
 public:
 

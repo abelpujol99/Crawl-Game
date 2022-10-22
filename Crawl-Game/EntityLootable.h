@@ -3,8 +3,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include "MapElement.h"
-//#include "Player.h"
-//#include "DropLootable.h"
 #include "Potion.h"
 #include "Coin.h"
 #include "Weapon.h"
@@ -22,13 +20,12 @@ protected:
 	
 	DropLootable* _drop = nullptr;
 
-	void Drop();
 
 public:
 
 	EntityLootable();
 	virtual ~EntityLootable();
+	void Drop();
 	void Spawn(Coordinates coordinate);
-	//virtual void AcceptCharacter(Player* player) = 0;
 };
 

@@ -8,6 +8,5 @@ public:
 
 	Chest();
 	void Draw() override;
-	//void AcceptCharacter(Player* player) override;
 };
 
