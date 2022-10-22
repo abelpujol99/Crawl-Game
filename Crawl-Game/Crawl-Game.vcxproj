@@ -148,6 +148,7 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameUI.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="InputTimer.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="InventoryWeapon.h" />
     <ClInclude Include="JsonLoader.h" />
@@ -177,6 +178,7 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameUI.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="InputTimer.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="InventoryWeapon.cpp" />
     <ClCompile Include="JsonLoader.cpp" />

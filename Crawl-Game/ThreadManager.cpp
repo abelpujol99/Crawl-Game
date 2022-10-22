@@ -3,6 +3,7 @@
 ThreadManager::ThreadManager()
 {
 	_inputListenerThread = new thread();
+	_inputTimerThread = new thread();
 	_autoSaveThread = new thread();
 	_enemySpawnThread = new thread();
 }
@@ -10,13 +11,20 @@ ThreadManager::ThreadManager()
 ThreadManager::~ThreadManager()
 {
 	delete _inputListenerThread;
+	delete _inputTimerThread;
 	delete _autoSaveThread;
 	delete _enemySpawnThread;
 }
 
-void ThreadManager::StartInputThread(Input* input)
+void ThreadManager::StartInputListenerThread(Input* inputListener)
 {
-	_inputListenerThread = new thread(&Input::Listener, input);
+	_inputListenerThread = new thread(&Input::Listener, inputListener);
+	_inputListenerThread->detach();
+}
+
+void ThreadManager::StartInputTimerThread(InputTimer* inputTimer)
+{
+	_inputListenerThread = new thread(&InputTimer::Run, inputTimer);
 	_inputListenerThread->detach();
 }
 
