@@ -3,17 +3,14 @@
 #include <ctime>
 #include <iostream>
 
-#define INPUT_TIME 100
-
-class InputTimer {
-
+class Timer {
 private:
+	int maxTime, minTime;
 	clock_t targetTime;
 	void RestartTimer();
 public:
-	InputTimer();
+	Timer(int minxTime, int maxTime);
+	Timer(int time);
 	void Run();
-	bool CheckInput();
+	bool CheckTime();
 };
-
-

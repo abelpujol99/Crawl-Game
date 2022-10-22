@@ -131,7 +131,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AutosaveTimer.h" />
     <ClInclude Include="Chest.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="ConsoleControl.h" />
@@ -143,12 +142,11 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="EnemyPlacer.h" />
-    <ClInclude Include="EnemySpawn.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="EntityLootable.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameUI.h" />
     <ClInclude Include="Input.h" />
-    <ClInclude Include="InputTimer.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="InventoryWeapon.h" />
     <ClInclude Include="JsonLoader.h" />
@@ -163,7 +161,6 @@
     <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AutosaveTimer.cpp" />
     <ClCompile Include="Chest.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="ConsoleControl.cpp" />
@@ -174,12 +171,11 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="EnemyPlacer.cpp" />
-    <ClCompile Include="EnemySpawn.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="EntityLootable.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameUI.cpp" />
     <ClCompile Include="Input.cpp" />
-    <ClCompile Include="InputTimer.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="InventoryWeapon.cpp" />
     <ClCompile Include="JsonLoader.cpp" />

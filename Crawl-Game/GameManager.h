@@ -20,12 +20,14 @@
 #include "ThreadManager.h"
 #include "JsonSaver.h"
 #include "JsonLoader.h"
-#include "AutosaveTimer.h"
-#include "EnemySpawn.h"
-#include "EnemyPlacer.h"
+#include "Timer.h"
 
 #define WORLD_MAP_WIDTH 3
 #define WORLD_MAP_HEIGHT 3
+#define MAX_SPAWN_TIME 15000
+#define MIN_SPAWN_TIME 10000
+#define AUTOSAVE_TIME 5000
+#define INPUT_TIME 100
 
 class GameManager
 {
@@ -33,11 +35,13 @@ private:
 
 	ThreadManager* _threadManager;
 	Input* _input;
-	AutosaveTimer* _autosaveTimer;
 	JsonSaver* _jsonSaver;
 	JsonLoader* _jsonLoader;
-	EnemySpawn* _spawnTimer;
 	EnemyPlacer* _enemyPlacer;
+	Timer* _spawnTimer;
+	Timer* _autosaveTimer;
+	Timer* _inputTimer;
+	Input* _inputListener;
 	GameUI* _gameUI;	
 	std::vector<std::vector<Map*>> _maps;
 	Map* _currentMap;
