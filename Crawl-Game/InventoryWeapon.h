@@ -9,7 +9,7 @@ private:
 	int _range;
 public:
 	InventoryWeapon();
-	InventoryWeapon(std::string name, int damage, int range);
+	InventoryWeapon(std::string name, int range);
 	std::string GetName();
 	int GetDamage();
 	int GetRange();

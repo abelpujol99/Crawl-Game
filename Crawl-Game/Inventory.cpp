@@ -2,17 +2,6 @@
 
 Inventory::Inventory() {
 	_coins = 0;
-	_Inventorycounter = 0;
-}
-
-InventoryWeapon Inventory:: ChangeWeapon(InventoryWeapon holding) {
-	InventoryWeapon holderWepon = holding;
-	InventoryWeapon firstslot = _weaponsInInventory.first;
-	_weaponsInInventory.first = _weaponsInInventory.second;
-	_weaponsInInventory.second = holding;
-
-	std::cout <<"this is range"<< _weaponsInInventory.first.GetRange() << std::endl;
-	return firstslot;
 }
 
 std::pair<InventoryWeapon, InventoryWeapon> Inventory::GetWeapons() {
@@ -20,30 +9,36 @@ std::pair<InventoryWeapon, InventoryWeapon> Inventory::GetWeapons() {
 }
 
 void Inventory::AddWeaponToInventory(InventoryWeapon Weapon) {
-	
-	if (_Inventorycounter = 0 ) {
-		_weaponsInInventory.first = Weapon;
-		_Inventorycounter++;
-	}
-	else
-	{
-		ChangeWeapon(Weapon);
-	}
+	_weaponsInInventory.second = Weapon;
 }
 
-int Inventory::UsePotions() {
-	
-	return _potion[1].GetHealValue();
+void Inventory::SwapWeapons() {
+  	InventoryWeapon temp = _weaponsInInventory.first;
+	_weaponsInInventory.first = _weaponsInInventory.second;
+	_weaponsInInventory.second = temp;
+
+}
+
+int Inventory::UsePotion() {
+	Potion usedPotion = _potions.front();
+	_potions.pop();
+	return usedPotion.GetHealValue();
 }
 
 void Inventory::AddPotion(Potion potion) {
-	_potion.push_back(potion);
+	_potions.push(potion);
 
+}
+
+int Inventory::GetPotionAmount()
+{
+	return _potions.size();
 }
 
 int Inventory::GetCoins() {
 	return _coins;
 }
+
 void Inventory::ModifyCoins(int change) {
 	_coins += change; 
 }

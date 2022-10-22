@@ -1,8 +1,7 @@
 #pragma once
 #include "MapElement.h"
 #include "EntityLootable.h"
-//#include "Chest.h"
-//#include "Enemy.h"
+#include "InventoryWeapon.h"
 
 class MapElement;
 
@@ -11,7 +10,7 @@ class Character : public MapElement
 
 protected:
 
-	//InventoryWeapon _currentWeapon;
+	InventoryWeapon _currentWeapon;
 	int _health;
 	Coordinates _targetCoordinatesToMove;
 
@@ -22,9 +21,10 @@ public:
 	virtual ~Character();
 	virtual void Move() = 0;
 	bool IsAlive();
+	int GetHealth();
 	void ModifyHealthValueOnTakeDamageOrHeal(int modifyValue);
 	void SetTargetCoordinatesToMove(Coordinates coordinates);
-	//InventoryWeapon GetCurrentWeapon();
+	InventoryWeapon GetCurrentWeapon();
 	Coordinates GetTargetCoordinatesToMove();
 };
 

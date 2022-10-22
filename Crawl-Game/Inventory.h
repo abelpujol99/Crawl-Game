@@ -4,27 +4,26 @@
 #include "Weapon.h"
 
 #include <vector>
+#include <queue>
 #include <utility>
 
 class Inventory
 {
 private:
 	std::pair<InventoryWeapon,InventoryWeapon> _weaponsInInventory;
-	std::vector<Potion> _potion;
+	std::queue<Potion> _potions;
 	int _coins;
-	int _Inventorycounter;
-	
-	InventoryWeapon ChangeWeapon(InventoryWeapon holding);
 
 public:
 	Inventory();   
 
 	std::pair<InventoryWeapon,InventoryWeapon> GetWeapons();
-
 	void AddWeaponToInventory(InventoryWeapon weapon);
+	void SwapWeapons();
 
-	int UsePotions();
+	int UsePotion();
 	void AddPotion(Potion potion);
+	int GetPotionAmount();
 
 	int GetCoins();
 	void ModifyCoins(int change);

@@ -3,13 +3,13 @@
 InventoryWeapon::InventoryWeapon()
 {
 	_name = "invalid";
-	_damage = 0;
+	_damage = 1;
 	_range = 0;
 }
 
-InventoryWeapon::InventoryWeapon(std::string name, int damage, int range) {
+InventoryWeapon::InventoryWeapon(std::string name, int range) {
 	_name = name;
-	_damage = damage;
+	_damage = 1;
 	_range = range; 
 }
 
