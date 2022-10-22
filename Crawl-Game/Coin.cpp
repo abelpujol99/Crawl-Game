@@ -1,6 +1,6 @@
 #include "Coin.h"
 
-Coin::Coin() {
+Coin::Coin() : DropLootable() {
 
 	srand(time(NULL));
 

@@ -19,9 +19,9 @@ protected:
 public:
 
 	Character();
-	Character(Coordinates coordinates);
+	Character(Coordinates coordinates, Coordinates worldMapCoordinates);
 	virtual ~Character();
-	virtual void Move() = 0;
+	virtual void Move(int lastCommand) = 0;
 	bool IsAlive();
 	void ModifyHealthValueOnTakeDamageOrHeal(int modifyValue);
 	void SetTargetCoordinatesToMove(Coordinates coordinates);

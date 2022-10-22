@@ -7,6 +7,7 @@ GameManager::GameManager()
 	_autosaveTimer = new AutosaveTimer();
 	_spawnTimer = new EnemySpawn();
 	_gameUI = new GameUI();
+	_enemyPlacer = new EnemyPlacer();
 	
 	for (int i = 0; i < WORLD_MAP_WIDTH; i++)
 	{
@@ -19,8 +20,8 @@ GameManager::GameManager()
 		_maps.push_back(auxMap);
 	}
 
-	SetCurrentMap(Coordinates(floor(WORLD_MAP_HEIGHT / 2), floor(WORLD_MAP_WIDTH / 2)));
-	_player = new Player((Coordinates(floor(MAP_HEIGHT / 2), floor(MAP_WIDTH / 2))));
+	_player = new Player((Coordinates(floor(MAP_HEIGHT / 2), floor(MAP_WIDTH / 2))), Coordinates(1, 1));
+	SetCurrentMap(_player->GetWorldMapCoordinates());
 	_jsonLoader->LoadPlayerFromJson(*_player, "Saves/Player.json");
 	_currentMap->SetMapElement(_player);
 }
@@ -40,24 +41,11 @@ void GameManager::Loop()
 	while (_player->IsAlive())
 	{		
 		MapElement* auxMapElement;
-		int lastChar = _input->LastInput();
-		if (lastChar == KB_D)
-		{
-			_player->SetTargetCoordinatesToMove(Coordinates(_player->GetCoordinates().x + 1, _player->GetCoordinates().y));
-		}
-		else if (lastChar == KB_A)
-		{
-			_player->SetTargetCoordinatesToMove(Coordinates(_player->GetCoordinates().x - 1, _player->GetCoordinates().y));
-		}
-		else if (lastChar == KB_W)
-		{
-			_player->SetTargetCoordinatesToMove(Coordinates(_player->GetCoordinates().x, _player->GetCoordinates().y - 1));
-		}
-		else if (lastChar == KB_S)
-		{
-			_player->SetTargetCoordinatesToMove(Coordinates(_player->GetCoordinates().x, _player->GetCoordinates().y + 1));
-		}
-		else if(lastChar == KB_E)
+		int lastCommand = _input->LastInput();
+		
+		_player->Move(lastCommand);
+
+		if(lastCommand == KB_E)
 		{
 			_player->HealYourself();
 		}
@@ -68,7 +56,8 @@ void GameManager::Loop()
 		if (_spawnTimer->CheckSpawn()) {
 			int random = int(rand() % 10);
 			if (random < 70) {
-				//ADD ENEMY
+			 	Character* enemy = _enemyPlacer->PlaceEnemy(_currentMap);
+				_currentMap->SetMapElement(enemy);
 			}
 			else {
 				//ADD CHEST
@@ -78,8 +67,6 @@ void GameManager::Loop()
 		if (_autosaveTimer->CheckSave()) {
 			_jsonSaver->SaveToJson(_player->ToJsonValue(), "Saves/Player.json");
 		}
-
-		DrawMapElements();
 	}
 }
 
@@ -109,14 +96,14 @@ void GameManager::ActionDependOnMapElementType(MapElement* mapElement) {
 	case ENEMY:
 		{
 			Enemy* enemy = dynamic_cast<Enemy*>(mapElement);
-			enemy->ModifyHealthValueOnTakeDamageOrHeal(-1);
+			enemy->ModifyHealthValueOnTakeDamageOrHeal(-1, _currentMap->SelectMapElementPointer(enemy->GetCoordinates()));
 		}
 		break;
 
 	case CHEST:
 		{
 			Chest* chest = dynamic_cast<Chest*>(mapElement);
-			chest->Drop();
+			chest->Drop(_currentMap->SelectMapElementPointer(chest->GetCoordinates()));
 		}
 		break;
 
@@ -148,12 +135,14 @@ void GameManager::ActionDependOnMapElementType(MapElement* mapElement) {
 				_currentMap->SetEmptyBox(_player->GetCoordinates());
 				Coordinates _portalCoordinates = _portals[i]->GetCoordinates();
 				SetPlayerCoordinates(_portalCoordinates);
-				SetCurrentMap(_portals[i]->Teleport(_currentWorldMapCoordinates));
+				SetCurrentMap(_portals[i]->Teleport(_player->GetWorldMapCoordinates()));
 				_currentMap->SetMapElement(_player);
 			}
 		}
 		break;
 	}
+
+	_player->SetTargetCoordinatesToMove(_player->GetCoordinates());
 }
 
 Coordinates GameManager::GetWeaponTargetCoordinates(Character* character) {
@@ -211,28 +200,10 @@ void GameManager::SetMapElementInCurrentMap(MapElement* mapElement) {
 
 void GameManager::SetCurrentMap(Coordinates nextMapCoordinates) {
 
-	this->_currentWorldMapCoordinates = nextMapCoordinates;
-	this->_currentMap = _maps[_currentWorldMapCoordinates.x][_currentWorldMapCoordinates.y];
+	this->_player->SetWorldMapCoordinates(nextMapCoordinates);
+	this->_currentMap = _maps[_player->GetWorldMapCoordinates().x][_player->GetWorldMapCoordinates().y];
 	this->_currentMapElements = _currentMap->GetMapElements();	
 	this->_portals = _currentMap->GetPortals();
 	ConsoleControl::SetPosition(0, 0);
 	this->_currentMap->Draw();
-}
-
-void GameManager::DrawMapElements() {
-
-	for (int i = 0; i < MAP_HEIGHT; i++)
-	{
-		for (int j = 0; j < MAP_WIDTH; j++)
-		{
-			MapElement** mapElementPointer = _currentMap->SelectMapElementPointer(Coordinates(j, i));
-
-			if (mapElementPointer[0]->GetMapElementType() != WALL
-				&& mapElementPointer[0]->GetMapElementType() != PORTAL
-				&& mapElementPointer[0]->GetMapElementType() != NONE)
-			{
-				mapElementPointer[0]->Draw();
-			}
-		}
-	}
 }

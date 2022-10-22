@@ -17,6 +17,8 @@ protected:
 
 public:
 
+	MapElement();
+	MapElement(Coordinates currentWorldMapCoordinates);
 	~MapElement();
 	void SetCoordinates(Coordinates coordinates);
 	Coordinates GetCoordinates();

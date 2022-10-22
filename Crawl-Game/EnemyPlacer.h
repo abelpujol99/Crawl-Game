@@ -3,5 +3,5 @@
 
 class EnemyPlacer {
 public:
-	Enemy* PlaceEnemy(Map& map);
+	Enemy* PlaceEnemy(Map* map);
 };

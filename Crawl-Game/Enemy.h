@@ -12,18 +12,19 @@ class Enemy : public Character, public EntityLootable {
 
 private:
 
-	void Die();
 	std::thread* _enemyThread;
 	std::mutex* _enemyMutex;
 	clock_t _targetTime;
 
 public:
 
-	Enemy(Coordinates coordinates);
+	Enemy(Coordinates coordinates, Coordinates worldMapCoordinates);
 	~Enemy();
+	void ModifyHealthValueOnTakeDamageOrHeal(int modifyValue, MapElement** mapElementPointer);
 	void EnemyManager();
 	void ResetMoveTimer();
-	void Move() override;
+	void Move(int lastCommand) override;
+	void Drop(MapElement** mapElementPointer) override;
 	Coordinates GetCoordinates();
 	void Draw() override;
 };

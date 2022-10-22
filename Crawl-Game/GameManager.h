@@ -22,6 +22,7 @@
 #include "JsonLoader.h"
 #include "AutosaveTimer.h"
 #include "EnemySpawn.h"
+#include "EnemyPlacer.h"
 
 #define WORLD_MAP_WIDTH 3
 #define WORLD_MAP_HEIGHT 3
@@ -36,13 +37,13 @@ private:
 	JsonSaver* _jsonSaver;
 	JsonLoader* _jsonLoader;
 	EnemySpawn* _spawnTimer;
+	EnemyPlacer* _enemyPlacer;
 	GameUI* _gameUI;	
 	std::vector<std::vector<Map*>> _maps;
 	Map* _currentMap;
 	std::vector<std::vector<MapElement*>*>* _currentMapElements;
 	Player* _player;
 	std::vector<Portal*> _portals;
-	Coordinates _currentWorldMapCoordinates;
 
 	//void CreatePortals();
 	void SetMapElementInCurrentMap(MapElement* mapElement);
@@ -50,7 +51,6 @@ private:
 	void ActionDependOnMapElementType(MapElement* mapElement);
 	Coordinates GetWeaponTargetCoordinates(Character* character);
 	void SetPlayerCoordinates(Coordinates portalCoordinates);
-	void DrawMapElements();
 
 public:
 
