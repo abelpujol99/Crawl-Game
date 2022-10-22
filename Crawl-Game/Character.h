@@ -19,11 +19,10 @@ public:
 
 	Character();
 	Character(Coordinates coordinates);
+	virtual ~Character();
 	virtual void Move() = 0;
-	void IsAlive();
-	virtual void Die() = 0;
+	bool IsAlive();
 	void ModifyHealthValueOnTakeDamageOrHeal(int modifyValue);
-	//virtual void InteractWithEntityLootable(EntityLootable* entityLootable) = 0;
 	void SetTargetCoordinatesToMove(Coordinates coordinates);
 	Coordinates GetTargetCoordinatesToMove();
 };

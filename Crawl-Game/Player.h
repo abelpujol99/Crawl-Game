@@ -3,7 +3,7 @@
 #include "Character.h"
 #include "EntityLootable.h"
 //#include "InventoryWeapon.h"
-
+#include "json/json.h"
 class InventoryWeapon;
 
 class Player : public Character {
@@ -20,7 +20,9 @@ public:
 	//void InteractWithEntityLootable(EntityLootable* entityLootable) override;
 	void HealYourself();
 	//void ChangeCurrentWeapon(InventoryWeapon weaponOfInventory);
-	void Die() override;
 	void Draw() override;
 	//void AcceptCharacter();
+
+	static Player* Parse(Json::Value jsonValue);
+	Json::Value ToJsonValue();
 };

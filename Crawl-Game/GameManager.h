@@ -2,19 +2,23 @@
 #include <iostream>
 #include <vector>
 #include <math.h>
-#include "Input.h"
-#include "ThreadManager.h"
-#include "Player.h"
-#include "Enemy.h"
-#include "Chest.h"
-#include "Coin.h"
-#include "Potion.h"
-#include "Weapon.h"
-#include "Block.h"
-#include "Portal.h"
-#include "EmptyBox.h"
-#include "GameUI.h"
-#include "Map.h"
+#include "Coordinates.h"
+
+class MapElement;
+class ConsoleControl;
+class Input;
+class ThreadManager;
+class Player;
+class Enemy;
+class Chest;
+class Coin;
+class Potion;
+class Weapon;
+class Block;
+class Portal;
+class EmptyBox;
+class GameUI;
+class Map;
 
 #define WORLD_MAP_WIDTH 3
 #define WORLD_MAP_HEIGHT 3
@@ -26,9 +30,16 @@ private:
 	ThreadManager* threadManager;
 	Input* input;
 	GameUI* gameUI;	
-	std::vector<std::vector<Map>> _maps;
-	Player player;
-	Coordinates _currentMap;
+	std::vector<std::vector<Map*>> _maps;
+	std::vector<std::vector<MapElement*>*>* _currentMap;
+	Player* _player;
+	std::vector<Portal*> _portals;
+	Coordinates _currentWorldMapCoordinates;
+
+	void SetMapElementInCurrentMap(MapElement* mapElement);
+	void SetCurrentMap(Coordinates nextMapCoordinates);
+	void ActionDependOnMapElementType(MapElement* mapElement);
+	void DrawMapElements();
 
 public:
 
@@ -37,7 +48,4 @@ public:
 	void Setup();
 	void Loop();
 	bool CheckExit();
-	void SetCurrentMap(Coordinates nextMapCoordinates);
-	void SetMapElementInCurrentMap(MapElement* mapElement);
 };
-
