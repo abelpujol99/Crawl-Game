@@ -108,6 +108,7 @@ void GameManager::ActionDependOnMapElementType(MapElement* mapElement) {
 		}
 		else
 		{
+			_player->SetLastCoordinates(_player->GetCoordinates());
 			_currentMap->MoveCharacter(_player);
 			mapElement->~MapElement();
 		}			
@@ -161,7 +162,6 @@ void GameManager::ActionDependOnMapElementType(MapElement* mapElement) {
 		}
 		break;
 	}
-
 }
 
 Coordinates GameManager::GetWeaponTargetCoordinates(Character* character) {
@@ -234,9 +234,9 @@ void GameManager::DrawMapElements() {
 			MapElement** mapElementPointer = _currentMap->SelectMapElementPointer(Coordinates(j, i));
 
 			if (mapElementPointer[0]->GetMapElementType() != WALL
-				&& mapElementPointer[0]->GetMapElementType() != PORTAL)
+				&& mapElementPointer[0]->GetMapElementType() != PORTAL
+				&& mapElementPointer[0]->GetMapElementType() != NONE)
 			{
-				ConsoleControl::SetPosition(j, i);
 				mapElementPointer[0]->Draw();
 			}
 		}

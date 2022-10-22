@@ -33,6 +33,7 @@ void Player::HealYourself() {
 
 void Player::Draw() {
 
+    ConsoleControl::SetPosition(this->GetCoordinates().x, this->GetCoordinates().y);
 	std::cout << 'P';
 }
 

@@ -14,6 +14,7 @@ protected:
 	//InventoryWeapon _currentWeapon;
 	int _health;
 	Coordinates _targetCoordinatesToMove;
+	Coordinates _lastCoordinates;
 
 public:
 
@@ -24,7 +25,9 @@ public:
 	bool IsAlive();
 	void ModifyHealthValueOnTakeDamageOrHeal(int modifyValue);
 	void SetTargetCoordinatesToMove(Coordinates coordinates);
+	void SetLastCoordinates(Coordinates coordinates);
 	//InventoryWeapon GetCurrentWeapon();
 	Coordinates GetTargetCoordinatesToMove();
+	Coordinates GetLastCoordinates();
 };
 
