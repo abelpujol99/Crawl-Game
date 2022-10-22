@@ -31,6 +31,11 @@ void Character::SetTargetCoordinatesToMove(Coordinates coordinates) {
 	this->_targetCoordinatesToMove = coordinates;
 }
 
+/*InventoryWeapon Character::GetCurrentWeapon() {
+
+	return _currentWeapon;
+}*/
+
 Coordinates Character::GetTargetCoordinatesToMove() {
 
 	return this->_targetCoordinatesToMove;
