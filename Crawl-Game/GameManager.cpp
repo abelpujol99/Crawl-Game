@@ -1,24 +1,12 @@
 #include "GameManager.h"
-#include "ConsoleControl.h"
-#include "Input.h"
-#include "ThreadManager.h"
-#include "Player.h"
-#include "Enemy.h"
-#include "Chest.h"
-#include "Coin.h"
-#include "Potion.h"
-#include "Weapon.h"
-#include "Block.h"
-#include "Portal.h"
-#include "EmptyBox.h"
-#include "GameUI.h"
-#include "Map.h"
 
 GameManager::GameManager()
 {
-	threadManager = new ThreadManager();
-	input = new Input();
-	gameUI = new GameUI();
+	_threadManager = new ThreadManager();
+	_input = new Input();
+	_autosaveTimer = new AutosaveTimer();
+	_spawnTimer = new EnemySpawn();
+	_gameUI = new GameUI();
 	
 	for (int i = 0; i < WORLD_MAP_WIDTH; i++)
 	{
@@ -33,35 +21,26 @@ GameManager::GameManager()
 
 	SetCurrentMap(Coordinates(floor(WORLD_MAP_HEIGHT / 2), floor(WORLD_MAP_WIDTH / 2)));
 	_player = new Player((Coordinates(floor(MAP_HEIGHT / 2), floor(MAP_WIDTH / 2))));
+	_jsonLoader->LoadPlayerFromJson(_player, "Saves/Player.json");
 	_currentMap->SetMapElement(_player);
 }
 
 GameManager::~GameManager()
 {
-	delete threadManager;
-	delete input;
-	delete gameUI;
+	delete _threadManager;
+	delete _input;
+	delete _autosaveTimer;
+	delete _spawnTimer;
+	delete _gameUI;
 	delete _player;
 }
 
 void GameManager::Loop()
 {
-	/*char lastChar = input->LastInput();
-	if (lastChar != 0) {
-		//exit = lastChar == KB_ESCAPE;
-		cout << lastChar << endl;
-	}*/
 	while (_player->IsAlive())
 	{		
-		DrawMapElements();
-
-		//char input;
-		//cin >> input;
-
-		int lastChar = input->LastInput();
-
 		MapElement* auxMapElement;
-
+		int lastChar = _input->LastInput();
 		if (lastChar == KB_D)
 		{
 			_player->SetTargetCoordinatesToMove(Coordinates(_player->GetCoordinates().x + 1, _player->GetCoordinates().y));
@@ -83,11 +62,24 @@ void GameManager::Loop()
 			_player->HealYourself();
 		}
 
-		
-
-
 		auxMapElement = _currentMap->CheckCollision(_player->GetTargetCoordinatesToMove());
 		ActionDependOnMapElementType(auxMapElement);
+
+		if (_spawnTimer->CheckSpawn()) {
+			int random = int(rand() % 10);
+			if (random < 70) {
+				//ADD ENEMY
+			}
+			else {
+				//ADD CHEST
+			}
+		}
+
+		if (_autosaveTimer->CheckSave()) {
+			_jsonSaver->SaveToJson(_player->ToJsonValue(), "Saves/Player.json");
+		}
+
+		DrawMapElements();
 	}
 }
 
@@ -202,7 +194,9 @@ void GameManager::SetPlayerCoordinates(Coordinates portalCoordinates) {
 
 void GameManager::Setup()
 {
-	threadManager->StartInputThread(input);
+	_threadManager->StartInputThread(_input);
+	_threadManager->StartAutoSaveThread(_autosaveTimer);
+	_threadManager->StartSpawnThread(_spawnTimer);
 }
 
 bool GameManager::CheckExit()

@@ -4,22 +4,24 @@
 #include <math.h>
 #include "Coordinates.h"
 #include "Character.h"
-
-class MapElement;
-class ConsoleControl;
-class Input;
-class ThreadManager;
-class Player;
-class Enemy;
-class Chest;
-class Coin;
-class Potion;
-class Weapon;
-class Block;
-class Portal;
-class EmptyBox;
-class GameUI;
-class Map;
+#include "ConsoleControl.h"
+#include "Player.h"
+#include "Enemy.h"
+#include "Chest.h"
+#include "Coin.h"
+#include "Potion.h"
+#include "Weapon.h"
+#include "Block.h"
+#include "Portal.h"
+#include "EmptyBox.h"
+#include "GameUI.h"
+#include "Map.h"
+#include "Input.h"
+#include "ThreadManager.h"
+#include "JsonSaver.h"
+#include "JsonLoader.h"
+#include "AutosaveTimer.h"
+#include "EnemySpawn.h"
 
 #define WORLD_MAP_WIDTH 3
 #define WORLD_MAP_HEIGHT 3
@@ -28,9 +30,13 @@ class GameManager
 {
 private:
 
-	ThreadManager* threadManager;
-	Input* input;
-	GameUI* gameUI;	
+	ThreadManager* _threadManager;
+	Input* _input;
+	AutosaveTimer* _autosaveTimer;
+	JsonSaver* _jsonSaver;
+	JsonLoader* _jsonLoader;
+	EnemySpawn* _spawnTimer;
+	GameUI* _gameUI;	
 	std::vector<std::vector<Map*>> _maps;
 	Map* _currentMap;
 	std::vector<std::vector<MapElement*>*>* _currentMapElements;
